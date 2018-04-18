@@ -45,6 +45,7 @@ Login:
 Streaming Page: 
 
 - Show Copyright information
+- Requires JWPlayerJS be included in codebase
 - Stream video uploaded to Wowza Server
 - Display metadata about file along with streaming file
 
@@ -53,3 +54,38 @@ Stats/Usage:
 
 - Stats/Usage Dashboard
 
+
+Architecture: 
+
+Model(s):
+
+    Resource:
+    
+    - ItemID (string)
+    - Title (string)
+    - Subtitles (string)
+    - CourseID (string)
+    - CourseName (string)
+    - Semester (string)
+    - Instructor (string)
+    - URL (string)
+    - Type (string) # is it music, video, etc? 
+
+
+Views: 
+
+    - Upload View 
+    - List View
+    - Streaming File View
+    - Home/Index View
+
+
+Controller (other than Application Controller):
+
+    Resource Controller:
+    
+    - Upload
+    - List
+    - Stream
+    - Home/Index
+    
