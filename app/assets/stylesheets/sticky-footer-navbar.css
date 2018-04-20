@@ -1,0 +1,98 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #a51417;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container {
+  padding: 60px 10px 60px 10px;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.footer > .container {
+  /*padding-right: 15px;*/
+  /*padding-left: 15px;*/
+  /*background-color: #a51417;*/
+}
+
+body > footer > div > div.col-md-4 > p > a:hover {
+  color: rgb(255, 255, 255);
+}
+
+body > footer > div > div.col-md-4 > p > a:active {
+  color: rgb(255, 255, 255);
+}
+
+.navbar-inverse {
+  background-color: #6c7373;
+  border-color: #535959;
+  border-radius: 0px;
+}
+
+.bottom {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 25px 0 60px 0;
+  position: absolute;
+  background-color: #6c7373;
+  text-align: center;
+}
+
+.bottom > .row > .col-md-4 > .panel {
+  background-color: #6c7373;
+  color: rgb(255, 255, 255);
+  border: none;
+}
+
+.bottom > .row > .col-md-4 > .panel > .panel-heading {
+  background-color: #6c7373;
+  color: rgb(255, 255, 255);
+  border: none;
+}
+
+.bottom > .row > .col-md-4 > .panel > .panel-body {
+  background-color: #6c7373;
+  color: rgb(255, 255, 255);
+  border: none;
+}
+
+.bottom > .row > .col-md-4 > .panel > .panel-body > p > a {
+  color: rgb(255, 255, 255);
+}
+
+.bottom > .row > .col-md-4 > .panel > .list-group .list-group-item, .panel>.panel-collapse>.list-group .list-group-item {
+  background-color: #6c7373;
+  color: rgb(255, 255, 255);
+  padding: 0px;
+}
+
+.bottom.container-fluid > .row > .col-md-4 > .panel > .list-group > a:hover {
+  color: rgb(255, 255, 255);
+  text-decoration: underline;
+}
+
+
+code {
+  font-size: 80%;
+}

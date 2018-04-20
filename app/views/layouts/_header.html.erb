@@ -1,0 +1,37 @@
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <img alt="Brand" src="https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/washu-logo-1linerev.svg"  alt="Washington University in St.Louis">
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>University Libraries</h1>
+</div>
+
+
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><%= link_to "Home", "/" %></li>
+        <li><%= link_to "Upload", new_resource_path %></li>
+        <li><%= link_to "List", resources_path %></li>
+<!--        <li><%#= link_to "Login",  new_user_session_path %></li>-->
+<!--        <li><%#= link_to "Help", resources_help_path %></li>-->
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>

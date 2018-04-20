@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Libstream</title>
-    <%= csrf_meta_tags %>
+<html lang="en">
+<head>
+  <title><%= full_title(yield(:title)) %></title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag    'application', media: 'all',
+                             'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <script src="../assets/jw/jwplayer.js"></script>
+  <script>jwplayer.key = "UsAbh+H0EIus1QAay94tDANQsnbPuE3wRYonzXdAwok=";</script>
+  <%= render 'layouts/shim' %>
+  <link rel="shortcut icon" href="https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/favicon/favicon.ico">
+  <link href="../assets/navbar-fixed-top.css" rel="stylesheet">
+  <link href="../assets/sticky-footer-navbar.css" rel="stylesheet">
+</head>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+<body>
+<%= render 'layouts/header' %>
 
-  <body>
-    <%= yield %>
-  </body>
+<!-- Begin page content -->
+<div class="container">
+  <%= yield %>
+</div>
+
+<%= render 'layouts/footer' %>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+</body>
 </html>

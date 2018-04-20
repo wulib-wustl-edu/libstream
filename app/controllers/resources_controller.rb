@@ -1,4 +1,7 @@
 class ResourcesController < ApplicationController
+  def home
+  end
+
   def index
     @resources = Resource.all
   end
@@ -19,7 +22,7 @@ class ResourcesController < ApplicationController
     @resource = Resource.new(resource_params)
 
     if @resource.save
-      redirect_to @resource
+      redirect_to resources_path
     else
       render 'new'
     end

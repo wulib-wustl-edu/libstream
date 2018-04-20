@@ -1,24 +1,55 @@
-<h1>Listing articles</h1>
-
-<table>
-  <tr>
-    <th>Item ID</th>
-    <th>Title</th>
-    <th>Instructor</th>
-  </tr>
-
-  <% @resources.each do |resource| %>
+<% provide(:title, "Resources") %>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Reserves</div>
+  <div class="panel-body">
+    <p>Currently uploaded resources for this semester</p>
+  </div>
+  <!-- Table -->
+  <table class="table">
     <tr>
-      <td><%= resource.item_id %></td>
-      <td><%= resource.title %></td>
-      <td><%= resource.instructor %></td>
-      <td><%= link_to 'Show', resource_path(resource) %></td>
-      <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
-      <td><%= link_to 'Destroy', resource_path(resource),
-                      method: :delete,
-                      data: {confirm: 'Are you sure?'} %></td>
+      <th>Item ID</th>
+      <th>Title</th>
+      <th>Ares Course ID</th>
+      <th>Course Name</th>
+      <th>Semester</th>
+      <th>Instructor</th>
+      <th>URL</th>
+      <th>Delete</th>
     </tr>
-  <% end %>
-</table>
+    <% @resources.each do |resource| %>
+      <tr>
+        <td><%= resource.item_id %></td>
+        <td><%= resource.title %></td>
+        <td><%= resource.course_id %></td>
+        <td><%= resource.course_name %></td>
+        <td><%= resource.semester %></td>
+        <td><%= resource.instructor %></td>
+        <td><%= link_to 'URL', resource_path(resource) %></td>
+        <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-warn">Delete</button></td>
+      </tr>
+      <!-- Modal -->
+      <div class="modal fade" id="delete-warn" tabindex="-1" role="dialog" aria-labelledby="delete-warn">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="delete-warn">Are you sure you want to delete?</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary"><%= link_to 'Delete', resource_path(resource),
+                                                                        method: :delete %></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </table>
+</div>
 
-<%= link_to 'Upload Video', new_resource_path %>
+
+
+
+<%#= link_to 'Upload Video', new_resource_path %>

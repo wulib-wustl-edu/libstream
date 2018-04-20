@@ -1,14 +1,39 @@
-<p>
-  <strong>ItemID:</strong>
-  <%= @resource.item_id %>
-</p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @resource.title %>
-</p>
-
-<p>
-  <strong>Instructor:</strong>
-  <%= @resource.instructor %>
-</p>
+<% provide(:title, "Video") %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1><%= @resource.title %></h1>
+      <p>Course: <%= @resource.course_name %></p>
+      <p>Instructor: <%= @resource.instructor %></p>
+      <p>
+      <div id="player"></div>
+      <script>
+          jwplayer("player").setup({
+              playlist: [{
+                  sources: [{
+                      file: "rtmp://128.252.67.12:1935/reserves/mp4:157902.mp4"
+                  }, {
+                      file: "http://128.252.67.12:1935/reserves/mp4:157902.mp4/playlist.m3u8"
+                  }],
+                  mediaid: "Dbmae653"
+              }],
+              rtmp: {
+                  bufferlength: 3
+              },
+              fallback: true
+          });
+      </script>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Copyright Statement</h1>
+      <p>This service is available for Washington University instructors and students only to be used in conjunction
+        with course reserves. Material is subject to the copyright law of the United States (Title 17, U.S. Code).
+        Individuals are prohibited from downloading, sharing, installing, and/or operating unauthorized media programs,
+        applications, and devices in accordance with the Washington University Computer Use Policy, and any misconduct
+        is subject to disciplinary action under the Student Judicial Code.</p>
+    </div>
+  </div>
+</div>
