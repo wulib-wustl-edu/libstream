@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180420191629) do
+ActiveRecord::Schema.define(version: 20180420215313) do
 
   create_table "resources", force: :cascade do |t|
     t.string "item_id"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20180420191629) do
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "hashid"
+    t.index ["hashid"], name: "index_resources_on_hashid", unique: true
   end
 
 end
