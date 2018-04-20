@@ -1,0 +1,35 @@
+<h1>Upload Video</h1>
+<% if @resource.errors.any? %>
+  <div id="error_explanation">
+    <h2>
+      <%= pluralize(@resource.errors.count, "error") %> prohibited
+      this resource from being saved:
+    </h2>
+    <ul>
+      <% @resource.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with scope: :resource, url: resources_path, local: true do |form| %>
+  <p>
+    <%= form.label 'Item#' %><br>
+    <%= form.text_field :item_id %>
+  </p>
+
+  <p>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </p>
+
+  <p>
+    <%= form.label :instructor %><br>
+    <%= form.text_field :instructor %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

@@ -69,7 +69,17 @@ Model(s):
     - Semester (string)
     - Instructor (string)
     - URL (string)
-    - Type (string) # is it music, video, etc? 
+    - Type (string) # is it music, video, etc?
+
+
+    User:
+    - ID
+    - Last Name
+    - First Name
+    - Email
+    - Username
+    - User Login Stats (last sign in, number of sign ins)
+    
 
 
 Views: 
