@@ -16,7 +16,7 @@
         </div>
         <div class="panel-body">
           <p>Upload video files for streaming.</p>
-<!--          <p><%#= link_to "Upload", reserves_upload_path, :class => "btn btn-default" %></p>-->
+          <p><%= link_to "Upload", new_resource_path, :class => "btn btn-default" %></p>
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="panel-body">
           <p>Manage and review list of streaming reserves</p>
-<!--          <p><%#= link_to "View", reserves_video_path, :class => "btn btn-default" %></p>-->
+          <p><%= link_to "View", resources_path, :class => "btn btn-default" %></p>
         </div>
       </div>
     </div>
