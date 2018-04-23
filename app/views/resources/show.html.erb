@@ -11,9 +11,9 @@
           jwplayer("player").setup({
               playlist: [{
                   sources: [{
-                      file: "rtmp://128.252.67.12:1935/reserves/mp4:157902.mp4"
+                      file: "rtmp://128.252.67.12:1935/reserves/mp4:<%= @resource.item_id %>.mp4"
                   }, {
-                      file: "http://128.252.67.12:1935/reserves/mp4:157902.mp4/playlist.m3u8"
+                      file: "http://128.252.67.12:1935/reserves/mp4:<%= @resource.item_id %>.mp4/playlist.m3u8"
                   }],
                   mediaid: "Dbmae653"
               }],

@@ -59,3 +59,9 @@ gem 'jquery-rails'
 
 # add obfuscation
 gem 'hashids_uri'
+
+# add carrierwave for file upload
+gem 'carrierwave', '~> 1.0'
+
+# add tiny_tds for sql call to Ares
+gem "tiny_tds"
