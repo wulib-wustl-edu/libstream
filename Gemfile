@@ -65,3 +65,10 @@ gem 'carrierwave', '~> 1.0'
 
 # add tiny_tds for sql call to Ares
 gem "tiny_tds"
+
+# add jwplayer ruby client
+gem 'jwplayer-api-client'
+gem 'typhoeus'
+
+# figaro for environment variables
+gem 'figaro'

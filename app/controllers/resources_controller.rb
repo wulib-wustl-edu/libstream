@@ -22,7 +22,7 @@ class ResourcesController < ApplicationController
     @resource = Resource.new(resource_params)
 
     # Call to Ares based on ItemID
-    client = TinyTds::Client.new username: 'AresHydraAccess', password: 'pIfA2HvR0@ODBC', host: 'libsqlclust08.wulib.wustl.edu', database: 'AresData'
+    client = TinyTds::Client.new username: Figaro.env.ares_user, password: Figaro.env.ares_password, host: Figaro.env.ares_host, database: Figaro.env.ares_db
     video = client.execute('SELECT ItemID, Title, Items.Description, Author, PubDate, Items.CourseID AS AresCourseID, Courses.Name AS CourseName, Courses.Semester, Courses.Instructor FROM Items JOIN Courses ON Items.CourseID = Courses.CourseID WHERE ItemID = ' + @resource[:item_id].to_s)
 
     video.each(:symbolize_keys => true, :cache_rows => false) do |row|
@@ -34,10 +34,18 @@ class ResourcesController < ApplicationController
       @resource.course_name = row[:CourseName]
     end
     @resource.video = resource_params[:original_filename]
-    # @resource.save
+
+
+    # Initiate call to JW Player
+    jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+    signed_url = jw_call.signed_url('videos/create', 'title': @resource.title, 'sourcetype': 'url', 'sourceformat': 'mp4', 'sourceurl': 'rtmp://128.252.67.12:1935/reserves/' + @resource.item_id + '.mp4')
+    response = Typhoeus.post(signed_url)
+    json = JSON.parse(response.body)
+    media_id = json.dig('video', 'key')
+
+    @resource.media_id = media_id
 
     if @resource.save
-      puts "Success!!!!"
       video.cancel
       redirect_to resources_path
     else
@@ -59,7 +67,14 @@ class ResourcesController < ApplicationController
   def destroy
     @resource = Resource.find(params[:id])
     @resource.remove_video!
+    @resource.save!
     @resource.destroy
+
+    # Initiate call to JW Player for delete
+    jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+    signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+    response = Typhoeus.post(signed_url)
+
     redirect_to resources_path
   end
 
@@ -67,4 +82,6 @@ class ResourcesController < ApplicationController
   def resource_params
     params.require(:resource).permit(:item_id, :video)
   end
+
+
 end
