@@ -33,8 +33,7 @@ class ResourcesController < ApplicationController
       @resource.course_id = row[:AresCourseID]
       @resource.course_name = row[:CourseName]
     end
-    @resource.video = resource_params[:original_filename]
-
+    @resource.video = resource_params[:video]
 
     # Initiate call to JW Player
     jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
@@ -44,6 +43,7 @@ class ResourcesController < ApplicationController
     media_id = json.dig('video', 'key')
 
     @resource.media_id = media_id
+
 
     if @resource.save
       video.cancel
@@ -66,10 +66,7 @@ class ResourcesController < ApplicationController
 
   def destroy
     @resource = Resource.find(params[:id])
-    @resource.remove_video!
-    @resource.save!
     @resource.destroy
-
     # Initiate call to JW Player for delete
     jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
     signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
