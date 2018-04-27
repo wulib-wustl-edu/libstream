@@ -72,3 +72,5 @@ gem 'typhoeus'
 
 # figaro for environment variables
 gem 'figaro'
+
+gem 'jquery-fileupload-rails'
