@@ -54,3 +54,9 @@ node_modules/
 TODO.txt
 
 *.iml
+
+
+uploads/
+public/uploads
+config/application.yml
+.DS_Store
