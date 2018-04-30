@@ -14,17 +14,13 @@ class VideoUploader < CarrierWave::Uploader::Base
     "#{Rails.root}/uploads/reserves/"
   end
 
-  # def cache_dir
-  #   "#{Rails.root}/uploads/reserves/"
-  # end
-
 
   # By default, CarrierWave copies an uploaded file twice, first copying the file into the cache, then copying the file into the store. For large files, this can be prohibitively time consuming.
   # You may change this behavior by overriding either or both of the move_to_cache and move_to_store methods:
 
-  def move_to_cache
-    true
-  end
+  # def move_to_cache
+  #   true
+  # end
 
   def move_to_store
     true

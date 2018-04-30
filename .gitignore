@@ -60,3 +60,4 @@ public/uploads
 # Ignore application configuration
 /config/application.yml
 /uploads
+.DS_Store

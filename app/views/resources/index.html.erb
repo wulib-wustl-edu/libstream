@@ -25,7 +25,7 @@
         <td><%= resource.course_name %></td>
         <td><%= resource.semester %></td>
         <td><%= resource.instructor %></td>
-        <td><%= link_to 'URL', resource_path(resource) %></td>
+        <td><%= link_to "#{resource_path(resource).to_s}", resource_path(resource) %></td>
         <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-warn">Delete</button></td>
       </tr>
       <!-- Modal -->
@@ -48,8 +48,3 @@
     <% end %>
   </table>
 </div>
-
-
-
-
-<%#= link_to 'Upload Video', new_resource_path %>

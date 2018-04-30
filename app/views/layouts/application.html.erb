@@ -22,7 +22,7 @@
   <%= yield %>
 </div>
 
-<%= render 'layouts/footer' %>
+<%#= render 'layouts/footer' %>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -64,11 +64,10 @@
             url: url,
             dataType: 'json',
             paramName: 'resource[video]',
-            // paramName: 'size',
             autoUpload: false,
             acceptFileTypes: /(\.|\/)(mp4)$/i,
-            maxChunkSize: 100000000,
-            maxFileSize: 1000000 * 10000,
+            maxChunkSize: 1000000000,
+            // maxFileSize: 1000000 * 10000,
             // Enable image resizing, except for Android and Opera,
             // which actually support image resizing, but fail to
             // send Blob objects via XHR requests:
@@ -89,6 +88,7 @@
                 }
                 node.appendTo(data.context);
             });
+
         }).on('fileuploadprocessalways', function (e, data) {
             var index = data.index,
                 file = data.files[index],
