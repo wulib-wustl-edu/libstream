@@ -1,3 +1,0 @@
-*.rb diff=ruby
-*.gemspec diff=ruby
-*.rb linguist-language=Ruby
