@@ -10,7 +10,8 @@
     <tr>
       <th>Item ID</th>
       <th>Title</th>
-      <th>Ares Course ID</th>
+      <th>Subtitles</th>
+      <th>CourseID</th>
       <th>Course Name</th>
       <th>Semester</th>
       <th>Instructor</th>
@@ -20,7 +21,8 @@
     <% @resources.each do |resource| %>
       <tr>
         <td><%= resource.item_id %></td>
-        <td><%= resource.title %></td>
+        <td><%= resource.title.titleize %></td>
+        <td><%= resource.subtitles %></td>
         <td><%= resource.course_id %></td>
         <td><%= resource.course_name %></td>
         <td><%= resource.semester %></td>

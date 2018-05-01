@@ -11,6 +11,7 @@ module Libstream
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
     config.web_console.whitelisted_ips = '65.254.109.49', '127.0.0.1', '128.252.39.247'
+    config.assets.paths << Rails.root.join('node_modules')
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

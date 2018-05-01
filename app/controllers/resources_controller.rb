@@ -1,4 +1,5 @@
 class ResourcesController < ApplicationController
+  skip_before_action :verify_authenticity_token
   def home
   end
 
@@ -19,6 +20,7 @@ class ResourcesController < ApplicationController
   end
 
   def create
+    puts resource_params[:video].to_s
     query_id = resource_params[:video].original_filename.to_s[0..-5]
     # create temp resource and make call to ares for values
     temp_resource = ares_call(query_id)
@@ -42,26 +44,30 @@ class ResourcesController < ApplicationController
     end
 
     # post to jw_player and get mediaid back
-    jw_mediaid = jw_call(temp_resource[:title], temp_resource[:item_id])
+    if @upload
+      jw_mediaid = jw_call(temp_resource[:title], temp_resource[:item_id])
 
-    temp_resource[:media_id] = jw_mediaid
-    @upload[:media_id] = temp_resource[:media_id]
-    @upload.video = resource_params[:video]
+      temp_resource[:media_id] = jw_mediaid
+      @upload[:media_id] = temp_resource[:media_id]
+      @upload.video = resource_params[:video]
+      # puts "TEMP >>> "  + @temp_upload.inspect
+      #
+      # p = resource_params[:video]
+      # name = p.original_filename
+      # directory = "uploads/reserves"
+      #
+      # path = File.join(directory, name.gsub(" ","_"))
+      # File.open(path, "ab") { |f| f.write(p.read) }
+    end
 
-    puts "TEMP >>> "  + @temp_upload.inspect
 
-    p = resource_params[:video]
-    name = p.original_filename
-    directory = "uploads/reserves"
-
-    path = File.join(directory, name.gsub(" ","_"))
-    File.open(path, "ab") { |f| f.write(p.read) }
 
     respond_to do |format|
       if @upload.save
         format.html {
           render :json => [@upload].to_json,
                  :content_type => 'text/html',
+                 :notice => 'Upload Successful',
                  :layout => false
         }
         format.json { render json: {files: [@upload]}, status: :created, location: @upload }
@@ -70,11 +76,6 @@ class ResourcesController < ApplicationController
         format.json { render json: @upload.errors, status: :unprocessable_entity }
       end
     end
-    # if @upload.save
-    #   redirect_to resources_path
-    # else
-    #   render 'new'
-    # end
   end
 
   def update
@@ -103,11 +104,12 @@ class ResourcesController < ApplicationController
     resource = Hash.new
     # Call to Ares based on ItemID
     client = TinyTds::Client.new username: Figaro.env.ares_user, password: Figaro.env.ares_password, host: Figaro.env.ares_host, database: Figaro.env.ares_db
-    video = client.execute('SELECT ItemID, Title, Items.Description, Author, PubDate, Items.CourseID AS AresCourseID, Courses.Name AS CourseName, Courses.Semester, Courses.Instructor FROM Items JOIN Courses ON Items.CourseID = Courses.CourseID WHERE ItemID = ' + query_id.to_s)
+    video = client.execute('SELECT ItemID, Title, Items.Description, Author, PubDate, ArticleTitle, Items.CourseID AS AresCourseID, Courses.Name AS CourseName, Courses.Semester, Courses.Instructor FROM Items JOIN Courses ON Items.CourseID = Courses.CourseID WHERE ItemID = ' + query_id.to_s)
 
     video.each(:symbolize_keys => true, :cache_rows => false) do |row|
       resource[:item_id] = row[:ItemID]
       resource[:title] = row[:Title]
+      resource[:subtitles] = row[:ArticleTitle]
       resource[:instructor] = row[:Instructor]
       resource[:semester] = row[:Semester]
       resource[:course_id] = row[:AresCourseID]
@@ -131,7 +133,7 @@ class ResourcesController < ApplicationController
 
   private
   def resource_params
-    params.require(:resource).permit(:item_id, :video)
+    params.require(:resource).permit!
   end
 
 

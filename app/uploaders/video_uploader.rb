@@ -7,6 +7,19 @@ class VideoUploader < CarrierWave::Uploader::Base
   storage :file
   # storage :fog
 
+
+
+  # By default, CarrierWave copies an uploaded file twice, first copying the file into the cache, then copying the file into the store. For large files, this can be prohibitively time consuming.
+  # You may change this behavior by overriding either or both of the move_to_cache and move_to_store methods:
+
+  def move_to_cache
+    true
+  end
+
+  def move_to_store
+    true
+  end
+
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
@@ -14,17 +27,11 @@ class VideoUploader < CarrierWave::Uploader::Base
     "#{Rails.root}/uploads/reserves/"
   end
 
-
-  # By default, CarrierWave copies an uploaded file twice, first copying the file into the cache, then copying the file into the store. For large files, this can be prohibitively time consuming.
-  # You may change this behavior by overriding either or both of the move_to_cache and move_to_store methods:
-
-  # def move_to_cache
-  #   true
-  # end
-
-  def move_to_store
-    true
+  def cache_dir
+    # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "#{Rails.root}/cache/reserves/"
   end
+
 
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

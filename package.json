@@ -1,5 +1,35 @@
 {
   "name": "libstream",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "formidable": "^1.2.1",
+    "browserify": "^14.0.0",
+    "browserify-incremental": "^3.1.0"
+  },
+  "description": "* Ruby version: ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-darwin17]",
+  "version": "1.0.0",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "testlib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wulib-wustl-edu/libstream.git"
+  },
+  "keywords": [
+    "rails",
+    "upload",
+    "streaming"
+  ],
+  "author": "philsuda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wulib-wustl-edu/libstream/issues"
+  },
+  "homepage": "https://github.com/wulib-wustl-edu/libstream#readme"
 }

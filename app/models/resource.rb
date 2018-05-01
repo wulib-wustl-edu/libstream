@@ -7,4 +7,5 @@ class Resource < ApplicationRecord
   validates :instructor, presence: true, length: {maximum: 50}
 
   mount_uploader :video, VideoUploader
+  serialize :video, JSON
 end

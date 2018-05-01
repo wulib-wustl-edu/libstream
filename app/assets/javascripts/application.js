@@ -19,4 +19,5 @@
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/basic-plus
 //= require turbolinks
+//= requrie formidable
 //= require_tree .
