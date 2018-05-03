@@ -20,7 +20,6 @@ class ResourcesController < ApplicationController
   end
 
   def create
-    puts resource_params[:video].to_s
     query_id = resource_params[:video].original_filename.to_s[0..-5]
     # create temp resource and make call to ares for values
     temp_resource = ares_call(query_id)
@@ -33,10 +32,8 @@ class ResourcesController < ApplicationController
 
     if @upload.nil?
       @upload = Resource.create(temp_resource)
-      puts "UPLOAD EMPTY? >>>> " + @upload.inspect
     else
       if @upload.size.nil?
-        puts "UPLOAD SIZE >>> " + @upload.size.to_s
         @upload.size = @temp_upload[:size]
       else
         @upload.size += @temp_upload[:size]
@@ -50,17 +47,7 @@ class ResourcesController < ApplicationController
       temp_resource[:media_id] = jw_mediaid
       @upload[:media_id] = temp_resource[:media_id]
       @upload.video = resource_params[:video]
-      # puts "TEMP >>> "  + @temp_upload.inspect
-      #
-      # p = resource_params[:video]
-      # name = p.original_filename
-      # directory = "uploads/reserves"
-      #
-      # path = File.join(directory, name.gsub(" ","_"))
-      # File.open(path, "ab") { |f| f.write(p.read) }
     end
-
-
 
     respond_to do |format|
       if @upload.save
