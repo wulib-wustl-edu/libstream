@@ -7,7 +7,6 @@ class ResourcesController < ApplicationController
     @resources = Resource.all
   end
 
-
   def show
     @resource = Resource.find(params[:id])
   end
@@ -78,11 +77,13 @@ class ResourcesController < ApplicationController
 
   def destroy
     @resource = Resource.find(params[:id])
-    @resource.destroy
+
     # Initiate call to JW Player for delete
     jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
     signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
     response = Typhoeus.post(signed_url)
+
+    @resource.destroy
 
     redirect_to resources_path
   end
