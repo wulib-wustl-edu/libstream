@@ -28,25 +28,8 @@
         <td><%= resource.semester %></td>
         <td><%= resource.instructor %></td>
         <td><%= "http://#{request.host}:3000" + resource_path(resource).to_s %></td>
-        <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-warn">Delete</button></td>
+        <td><button type="button" class="btn btn-primary"><%= link_to 'Delete', resource_path(resource), method: :delete, data: {confirm: 'Are you sure?'} %></button></td>
       </tr>
-      <!-- Modal -->
-      <div class="modal fade" id="delete-warn" tabindex="-1" role="dialog" aria-labelledby="delete-warn">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="delete-warn">Are you sure you want to delete?</h4>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary"><%= link_to 'Delete', resource_path(resource),
-                                                                        method: :delete %></button>
-            </div>
-          </div>
-        </div>
-      </div>
     <% end %>
   </table>
 </div>
