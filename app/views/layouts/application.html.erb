@@ -6,12 +6,12 @@
   <%= stylesheet_link_tag    'application', media: 'all',
                              'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <script src="../assets/jw/jwplayer.js"></script>
   <script>jwplayer.key = "UsAbh+H0EIus1QAay94tDANQsnbPuE3wRYonzXdAwok=";</script>
+  <%= javascript_include_tag 'jw/jwplayer.js' %>
   <%= render 'layouts/shim' %>
   <link rel="shortcut icon" href="https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/favicon/favicon.ico">
-  <link href="../assets/navbar-fixed-top.css" rel="stylesheet">
-  <link href="../assets/sticky-footer-navbar.css" rel="stylesheet">
+  <%= stylesheet_link_tag 'navbar-fixed-top' %>
+  <%= stylesheet_link_tag 'sticky-footer-navbar' %>
 </head>
 
 <body>

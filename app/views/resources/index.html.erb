@@ -27,7 +27,7 @@
         <td><%= resource.course_name %></td>
         <td><%= resource.semester %></td>
         <td><%= resource.instructor %></td>
-        <td><%= "http://#{request.host}" + resource_path(resource).to_s %></td>
+        <td><%= "http://#{request.host}:3000" + resource_path(resource).to_s %></td>
         <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-warn">Delete</button></td>
       </tr>
       <!-- Modal -->

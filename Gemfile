@@ -72,13 +72,3 @@ gem 'typhoeus'
 
 # figaro for environment variables
 gem 'figaro'
-
-gem 'jquery-fileupload-rails'
-
-
-# gem for using node/npm javascript libraries in rails app
-gem 'browserify-rails'
-
-# fileutility for moving files
-gem 'fileutils'
-
