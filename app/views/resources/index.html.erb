@@ -4,32 +4,40 @@
   <div class="panel-heading">Reserves</div>
   <div class="panel-body">
     <p>Currently uploaded resources for this semester</p>
+    <form action="/resources/destroy_multiple" method="post" %>
+      <table class="table">
+        <tr>
+          <th>Item ID</th>
+          <th>Title</th>
+          <th>Subtitles</th>
+          <th>CourseID</th>
+          <th>Course Name</th>
+          <th>Semester</th>
+          <th>Instructor</th>
+          <th>URL</th>
+          <th>Delete</th>
+          <th>Batch</th>
+        </tr>
+        <% for resource in @resources %>
+          <tr>
+            <td><%= resource.item_id %></td>
+            <td><%= resource.title.titleize %></td>
+            <td><%= resource.subtitles %></td>
+            <td><%= resource.course_id %></td>
+            <td><%= resource.course_name %></td>
+            <td><%= resource.semester %></td>
+            <td><%= resource.instructor %></td>
+            <td><%= "http://#{request.host}:3000" + resource_path(resource).to_s %></td>
+            <td>
+              <button type="button" class="btn btn-primary"><%= link_to 'Delete', resource_path(resource), method: :delete, data: {confirm: 'Are you sure?'} %></button>
+            </td>
+            <td><%= check_box_tag "resource_ids[]", resource.id %></td>
+          </tr>
+        <% end %>
+      </table>
+      <%#= submit_tag "Delete Checked" %>
+      <button type="submit" class="btn btn-primary">Delete Checked</button>
+    </form>
   </div>
-  <!-- Table -->
-  <table class="table">
-    <tr>
-      <th>Item ID</th>
-      <th>Title</th>
-      <th>Subtitles</th>
-      <th>CourseID</th>
-      <th>Course Name</th>
-      <th>Semester</th>
-      <th>Instructor</th>
-      <th>URL</th>
-      <th>Delete</th>
-    </tr>
-    <% @resources.each do |resource| %>
-      <tr>
-        <td><%= resource.item_id %></td>
-        <td><%= resource.title.titleize %></td>
-        <td><%= resource.subtitles %></td>
-        <td><%= resource.course_id %></td>
-        <td><%= resource.course_name %></td>
-        <td><%= resource.semester %></td>
-        <td><%= resource.instructor %></td>
-        <td><%= "http://#{request.host}:3000" + resource_path(resource).to_s %></td>
-        <td><button type="button" class="btn btn-primary"><%= link_to 'Delete', resource_path(resource), method: :delete, data: {confirm: 'Are you sure?'} %></button></td>
-      </tr>
-    <% end %>
-  </table>
 </div>
+

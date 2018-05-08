@@ -88,6 +88,20 @@ class ResourcesController < ApplicationController
     redirect_to resources_path
   end
 
+  def destroy_multiple
+    @resources = params[:resource_ids]
+    @resources.each do |resource_id|
+      @resource = Resource.find(resource_id.to_i)
+      # Initiate call to JW Player for delete
+      jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+      signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+      response = Typhoeus.post(signed_url)
+      @resource.destroy
+    end
+
+    redirect_to resources_path
+  end
+
   def ares_call(query_id)
     resource = Hash.new
     # Call to Ares based on ItemID
@@ -121,7 +135,7 @@ class ResourcesController < ApplicationController
 
   private
   def resource_params
-    params.require(:resource).permit!
+    params.require(:resource).permit(:id, :item_id, :title, :subtitles, :course_id, :course_name, :semester, :instructor, :url, :type, :hashid, :video, :media_id, :size, :resource)
   end
 
 
