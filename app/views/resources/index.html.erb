@@ -16,7 +16,7 @@
           <th>Instructor</th>
           <th>URL</th>
           <th>Delete</th>
-          <th>Batch</th>
+          <th><input type="checkbox" class="checkAll" name="checkAll" /></th>
         </tr>
         <% for resource in @resources %>
           <tr>
@@ -35,9 +35,23 @@
           </tr>
         <% end %>
       </table>
-      <%#= submit_tag "Delete Checked" %>
       <button type="submit" class="btn btn-primary">Delete Checked</button>
     </form>
   </div>
 </div>
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('.checkAll').on('click', function () {-->
+<!--            $(this).closest('table').find('tbody :checkbox')-->
+<!--                .prop('checked', this.checked)-->
+<!--                .closest('tr').toggleClass('selected', this.checked);-->
+<!--        });-->
+
+<!--        $('tbody :checkbox').on('click', function () {-->
+<!--            $(this).closest('tr').toggleClass('selected', this.checked); //Classe de seleção na row-->
+
+<!--            $(this).closest('table').find('.checkAll').prop('checked', ($(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length)); //Tira / coloca a seleção no .checkAll-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 
