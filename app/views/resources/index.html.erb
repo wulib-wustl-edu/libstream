@@ -7,13 +7,13 @@
     <form action="/resources/destroy_multiple" method="post" %>
       <table class="table">
         <tr>
-          <th>Item ID</th>
-          <th>Title</th>
-          <th>Subtitles</th>
-          <th>CourseID</th>
-          <th>Course Name</th>
-          <th>Semester</th>
-          <th>Instructor</th>
+          <th><%= sortable "item_id", "ItemID" %></th>
+          <th><%= sortable "title", "Title" %></th>
+          <th><%= sortable "subtitles", "Subtitles" %></th>
+          <th><%= sortable "course_id", "CourseID" %></th>
+          <th><%= sortable "course_name", "Course Name" %></th>
+          <th><%= sortable "semester", "Semester" %></th>
+          <th><%= sortable "instructor", "Instructor" %></th>
           <th>URL</th>
           <th>Delete</th>
           <th><input type="checkbox" class="checkAll" name="checkAll" /></th>

@@ -1,10 +1,11 @@
 class ResourcesController < ApplicationController
   skip_before_action :verify_authenticity_token
+  helper_method :sort_column, :sort_direction
   def home
   end
 
   def index
-    @resources = Resource.all
+    @resources = Resource.order(sort_column + " " + sort_direction)
   end
 
   def show
@@ -138,6 +139,12 @@ class ResourcesController < ApplicationController
     params.require(:resource).permit(:id, :item_id, :title, :subtitles, :course_id, :course_name, :semester, :instructor, :url, :type, :hashid, :video, :media_id, :size, :resource)
   end
 
+  def sort_column
+    Resource.column_names.include?(params[:sort]) ? params[:sort] : "title"
+  end
 
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
 
 end
