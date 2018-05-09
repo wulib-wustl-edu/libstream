@@ -10,3 +10,6 @@ $(document).on 'turbolinks:load', ->
     $(this).closest('table').find('.checkAll').prop 'checked', $(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length
     return
   return
+
+
+jwplayer.key = 'UsAbh+H0EIus1QAay94tDANQsnbPuE3wRYonzXdAwok='

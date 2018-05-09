@@ -1,9 +1,7 @@
 <nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">
-        <img alt="Brand" src="https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/washu-logo-1linerev.svg"  alt="Washington University in St.Louis">
-      </a>
+      <%= link_to(image_tag('https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/washu-logo-1linerev.svg', :alt => 'Washington University in St. Louis', :class =>  'navbar-brand'), "https://wustl.ed/") %>
     </div>
   </div>
 </nav>
@@ -29,8 +27,6 @@
         <li><%= link_to "Home", "/" %></li>
         <li><%= link_to "Upload", new_resource_path %></li>
         <li><%= link_to "List", resources_path %></li>
-<!--        <li><%#= link_to "Login",  new_user_session_path %></li>-->
-<!--        <li><%#= link_to "Help", resources_help_path %></li>-->
       </ul>
     </div><!--/.nav-collapse -->
   </div>

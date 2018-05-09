@@ -6,10 +6,10 @@
   <%= stylesheet_link_tag    'application', media: 'all',
                              'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <script>jwplayer.key = "UsAbh+H0EIus1QAay94tDANQsnbPuE3wRYonzXdAwok=";</script>
   <%= javascript_include_tag 'jw/jwplayer.js' %>
   <%= render 'layouts/shim' %>
-  <link rel="shortcut icon" href="https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/favicon/favicon.ico">
+  <%= favicon_link_tag asset_path('https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/favicon/favicon.ico'), :rel => 'icon', :type => "image/x-icon" %>
+  <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Source+Sans+Pro' %>
   <%= stylesheet_link_tag 'navbar-fixed-top' %>
   <%= stylesheet_link_tag 'sticky-footer-navbar' %>
 </head>
