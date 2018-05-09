@@ -5,7 +5,7 @@ class ResourcesController < ApplicationController
   end
 
   def index
-    @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 2, :page => params[:page])
+    @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
   end
 
   def show
