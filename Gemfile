@@ -72,3 +72,7 @@ gem 'typhoeus'
 
 # figaro for environment variables
 gem 'figaro'
+
+
+# pagination gem
+gem 'will_paginate', '~> 3.1.1'
