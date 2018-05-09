@@ -60,3 +60,4 @@ uploads/
 public/uploads
 config/application.yml
 .DS_Store
+package-lock.json
