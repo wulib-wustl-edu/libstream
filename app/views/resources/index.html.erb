@@ -3,10 +3,18 @@
   <!-- Default panel contents -->
   <div class="panel-heading">Reserves</div>
   <div class="panel-body">
-    <p>Currently uploaded resources for this semester</p>
+    <p>
+    <form class="form-inline" action="/resources" method="get" id="search-form">
+      <label class="sr-only" for="search">Name</label>
+      <input type="text" class="form-control mb-2 mr-sm-2" id="search" name="search" placeholder="Search Resources">
+      <button type="submit" class="btn btn-warning">Search</button>
+    </form>
+    </p>
+    <p>Currently uploaded streaming reserves:</p>
     <form action="/resources/destroy_multiple" method="post" %>
       <table class="table">
         <tr>
+          <th><input type="checkbox" class="checkAll" name="checkAll" /></th>
           <th><%= sortable "item_id", "ItemID" %></th>
           <th><%= sortable "title", "Title" %></th>
           <th><%= sortable "subtitles", "Subtitles" %></th>
@@ -16,10 +24,10 @@
           <th><%= sortable "instructor", "Instructor" %></th>
           <th>URL</th>
           <th>Delete</th>
-          <th><input type="checkbox" class="checkAll" name="checkAll" /></th>
         </tr>
         <% for resource in @resources %>
           <tr>
+            <td><%= check_box_tag "resource_ids[]", resource.id %></td>
             <td><%= resource.item_id %></td>
             <td><%= resource.title.titleize %></td>
             <td><%= resource.subtitles %></td>
@@ -31,7 +39,6 @@
             <td>
               <button type="button" class="btn btn-primary"><%= link_to 'Delete', resource_path(resource), method: :delete, data: {confirm: 'Are you sure?'} %></button>
             </td>
-            <td><%= check_box_tag "resource_ids[]", resource.id %></td>
           </tr>
         <% end %>
       </table>
@@ -39,6 +46,8 @@
     </form>
   </div>
   <div class="text-center">
-    <%= will_paginate @resources %>
+    <% if @resources %>
+      <%= will_paginate @resources %>
+    <% end %>
   </div>
 </div>

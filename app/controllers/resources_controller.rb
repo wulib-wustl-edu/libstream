@@ -6,6 +6,11 @@ class ResourcesController < ApplicationController
 
   def index
     @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+    if params[:search]
+      @resources = Resource.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+    else
+      @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+    end
   end
 
   def show
@@ -140,7 +145,7 @@ class ResourcesController < ApplicationController
   end
 
   def sort_column
-    Resource.column_names.include?(params[:sort]) ? params[:sort] : "title"
+    Resource.column_names.include?(params[:sort]) ? params[:sort] : "created_at"
   end
 
   def sort_direction
