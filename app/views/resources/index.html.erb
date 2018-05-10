@@ -1,7 +1,7 @@
 <% provide(:title, "Resources") %>
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">Reserves</div>
+  <div class="panel-heading"><h4>Reserves</h4></div>
   <div class="panel-body">
     <p>
     <form class="form-inline" action="/resources" method="get" id="search-form">
@@ -10,7 +10,6 @@
       <button type="submit" class="btn btn-warning">Search</button>
     </form>
     </p>
-    <p>Currently uploaded streaming reserves:</p>
     <form action="/resources/destroy_multiple" method="post" %>
       <table class="table">
         <tr>
