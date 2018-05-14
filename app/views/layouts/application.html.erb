@@ -6,28 +6,21 @@
   <%= stylesheet_link_tag    'application', media: 'all',
                              'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <script src="../assets/jw/jwplayer.js"></script>
-  <script>jwplayer.key = "UsAbh+H0EIus1QAay94tDANQsnbPuE3wRYonzXdAwok=";</script>
+  <%= javascript_include_tag 'jw/jwplayer.js' %>
   <%= render 'layouts/shim' %>
-  <link rel="shortcut icon" href="https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/favicon/favicon.ico">
-  <link href="../assets/navbar-fixed-top.css" rel="stylesheet">
-  <link href="../assets/sticky-footer-navbar.css" rel="stylesheet">
+  <%= favicon_link_tag asset_path('https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/favicon/favicon.ico'), :rel => 'icon', :type => "image/x-icon" %>
+  <%= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Source+Sans+Pro' %>
+  <%= stylesheet_link_tag 'navbar-fixed-top' %>
+  <%= stylesheet_link_tag 'sticky-footer-navbar' %>
 </head>
 
 <body>
 <%= render 'layouts/header' %>
 
 <!-- Begin page content -->
-<div class="container">
-  <%= yield %>
-</div>
+<%= yield %>
+
 
 <%= render 'layouts/footer' %>
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 </body>
 </html>

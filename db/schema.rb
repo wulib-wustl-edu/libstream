@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180420215313) do
+ActiveRecord::Schema.define(version: 20180511130718) do
 
   create_table "resources", force: :cascade do |t|
     t.string "item_id"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(version: 20180420215313) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "hashid"
+    t.string "video"
+    t.string "media_id"
+    t.integer "size", limit: 8
     t.index ["hashid"], name: "index_resources_on_hashid", unique: true
   end
 

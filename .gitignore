@@ -59,5 +59,12 @@ TODO.txt
 uploads/
 public/uploads
 config/application.yml
+=======
+/public/uploads
+/cache
+# Ignore application configuration
+/config/application.yml
+/uploads
+.DS_Store/node_modules
 .DS_Store
 package-lock.json
