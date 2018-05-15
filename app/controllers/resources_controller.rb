@@ -1,6 +1,8 @@
 class ResourcesController < ApplicationController
   skip_before_action :verify_authenticity_token
   helper_method :sort_column, :sort_direction
+  before_action :authenticate_user!, :except => [:home]
+
   def home
   end
 

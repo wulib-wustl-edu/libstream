@@ -76,3 +76,8 @@ gem 'figaro'
 
 # pagination gem
 gem 'will_paginate', '~> 3.1.1'
+
+
+# login with devise and devise ldap
+gem 'devise'
+gem 'devise_ldap_authenticatable'
