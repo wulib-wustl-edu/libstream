@@ -55,15 +55,14 @@ TODO.txt
 
 *.iml
 
-
+# Ignore application configuration
+/config/application.yml
 uploads/
 public/uploads
-config/application.yml
 config/ldap.yml
 =======
 /public/uploads
 /cache
-# Ignore application configuration
-/config/application.yml
-/uploads
 package-lock.json
+
+.DS_Store
