@@ -11,5 +11,13 @@ $(document).on 'turbolinks:load', ->
     return
   return
 
+$(document).on 'turbolinks:load', ->
+  setTimeout (->
+    $('.alert').remove()
+    return
+  ), 3000
+  return
 
 jwplayer.key = 'UsAbh+H0EIus1QAay94tDANQsnbPuE3wRYonzXdAwok='
+
+

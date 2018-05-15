@@ -19,7 +19,10 @@
 
 <!-- Begin page content -->
 <%= yield %>
-
+<% if !flash.empty? %>
+  <%= render 'layouts/messages' %>
+<% else %>
+<% end %>
 
 <%= render 'layouts/footer' %>
 </body>
