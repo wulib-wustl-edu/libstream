@@ -64,7 +64,7 @@ $(document).on 'turbolinks:load', ->
     if file.error
       node.append('<br>').append $('<span class="text-danger"/>').text(file.error)
     if index + 1 == data.files.length
-      data.context.find('button').text('Upload').prop 'disabled', ! !data.files.error
+      data.context.find('button.btn.btn-primary.start').text('Upload').prop 'disabled', ! !data.files.error
     return
   ).on('fileuploadprogressall', (e, data) ->
     progress = parseInt(data.loaded / data.total * 100, 10)

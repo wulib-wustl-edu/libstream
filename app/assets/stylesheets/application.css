@@ -6849,21 +6849,21 @@ button.close {
 }
 
 
-.upload-btn {
-    color: #ffffff;
-    background-color: #a64b1f;
-    border: none;
-}
+/*.upload-btn {*/
+    /*color: #ffffff;*/
+    /*background-color: #a64b1f;*/
+    /*border: none;*/
+/*}*/
 
-/*.upload-btn:hover,*/
-.upload-btn:focus,
-.upload-btn:active,
-.upload-btn.active {
-    color: #ffffff;
-    background-color: #a64b1f;
-    border: none;
-}
+/*!*.upload-btn:hover,*!*/
+/*.upload-btn:focus,*/
+/*.upload-btn:active,*/
+/*.upload-btn.active {*/
+    /*color: #ffffff;*/
+    /*background-color: #a64b1f;*/
+    /*border: none;*/
+/*}*/
 
-#upload-input {
-    display: none;
-}
+/*#upload-input {*/
+    /*display: none;*/
+/*}*/
