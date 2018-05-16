@@ -1,7 +1,7 @@
 class ResourcesController < ApplicationController
   skip_before_action :verify_authenticity_token
   helper_method :sort_column, :sort_direction
-  before_action :authenticate_user!, :except => [:home]
+  # before_action :authenticate_user!, :except => [:home]
 
   def home
   end
@@ -48,13 +48,16 @@ class ResourcesController < ApplicationController
     end
 
     # post to jw_player and get mediaid back
-    if @upload
+    if @upload[:media_id].empty?
       jw_mediaid = jw_call(temp_resource[:title], temp_resource[:item_id])
 
       temp_resource[:media_id] = jw_mediaid
       @upload[:media_id] = temp_resource[:media_id]
-      @upload.video = resource_params[:video]
+
+    else
     end
+    @upload.video = resource_params[:video]
+
 
     respond_to do |format|
       if @upload.save
