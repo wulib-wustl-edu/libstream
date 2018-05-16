@@ -1,7 +1,7 @@
 class ResourcesController < ApplicationController
   skip_before_action :verify_authenticity_token
   helper_method :sort_column, :sort_direction
-  # before_action :authenticate_user!, :except => [:home]
+  before_action :authenticate_user!, :except => [:home]
 
   def home
   end
@@ -53,10 +53,17 @@ class ResourcesController < ApplicationController
 
       temp_resource[:media_id] = jw_mediaid
       @upload[:media_id] = temp_resource[:media_id]
-
     else
     end
-    @upload.video = resource_params[:video]
+
+
+    p = resource_params[:video]
+    name = p.original_filename
+    directory = "uploads/reserves"
+    path = File.join(directory, name.gsub(" ","_"))
+    File.open(path, "ab") { |f| f.write(p.read) }
+
+    @upload[:video] = name
 
 
     respond_to do |format|
