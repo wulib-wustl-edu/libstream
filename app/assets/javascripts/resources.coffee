@@ -42,7 +42,7 @@ $(document).on 'turbolinks:load', ->
     paramName: 'resource[video]'
     autoUpload: false
     acceptFileTypes: /(\.|\/)(mp4)$/i
-    maxChunkSize: 100000000
+    maxChunkSize: 800000000
     disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent)
     previewMaxWidth: 100
     previewMaxHeight: 100
