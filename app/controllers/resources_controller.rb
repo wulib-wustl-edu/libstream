@@ -27,8 +27,7 @@ class ResourcesController < ApplicationController
   end
 
   def create
-    query_id = resource_params[:item_id]
-
+    query_id = resource_params[:video].original_filename.to_s[0..-5]
     # create temp resource and make call to ares for values
     temp_resource = ares_call(query_id)
 
