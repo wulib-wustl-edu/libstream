@@ -27,11 +27,14 @@ class ResourcesController < ApplicationController
   end
 
   def create
-    # query_id = resource_params[:video].original_filename.to_s[0..-5]
     query_id = resource_params[:item_id]
+
     # create temp resource and make call to ares for values
     temp_resource = ares_call(query_id)
 
+    content_type = resource_params[:video].content_type
+
+    temp_resource[:content_type] = content_type
     temp_resource[:size] = File.size(resource_params[:video].tempfile)
 
     @temp_upload = Resource.new(temp_resource)
@@ -57,13 +60,14 @@ class ResourcesController < ApplicationController
     else
     end
 
-
+    # move file to uploads/reserves for storage in wowza nfs
     p = resource_params[:video]
     name = p.original_filename
     directory = "uploads/reserves"
     path = File.join(directory, name.gsub(" ","_"))
     File.open(path, "ab") { |f| f.write(p.read) }
 
+    # carrierwave connection for delete/upload attachment
     @upload[:video] = name
 
 
