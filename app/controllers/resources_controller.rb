@@ -31,7 +31,7 @@ class ResourcesController < ApplicationController
     # create temp resource and make call to ares for values
     temp_resource = ares_call(query_id)
 
-    content_type = resource_params[:video].content_type
+    content_type = resource_params[:video].content_type.partition('/').last
 
     temp_resource[:content_type] = content_type
     temp_resource[:size] = File.size(resource_params[:video].tempfile)
@@ -52,7 +52,7 @@ class ResourcesController < ApplicationController
 
     # post to jw_player and get mediaid back
     if @upload[:media_id].empty?
-      jw_mediaid = jw_call(temp_resource[:title], temp_resource[:item_id])
+      jw_mediaid = jw_call(temp_resource[:title], temp_resource[:item_id], temp_resource[:content_type])
 
       temp_resource[:media_id] = jw_mediaid
       @upload[:media_id] = temp_resource[:media_id]
@@ -144,10 +144,10 @@ class ResourcesController < ApplicationController
     return resource
   end
 
-  def jw_call(title, item_id)
+  def jw_call(title, item_id, content_type)
     # Initiate call to JW Player
     jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-    signed_url = jw_call.signed_url('videos/create', 'title': title, 'sourcetype': 'url', 'sourceformat': 'mp4', 'sourceurl': 'rtmp://128.252.67.12:1935/reserves/' + item_id.to_s + '.mp4')
+    signed_url = jw_call.signed_url('videos/create', 'title': title, 'sourcetype': 'url', 'sourceformat': 'mp4', 'sourceurl': 'http://' + Figaro.env.wowza_server + '/reserves/' + item_id.to_s + '.' + content_type.to_s)
     response = Typhoeus.post(signed_url)
     json = JSON.parse(response.body)
     media_id = json.dig('video', 'key')
