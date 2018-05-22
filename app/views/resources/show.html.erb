@@ -7,13 +7,14 @@
       <p>Instructor: <%= @resource.instructor %></p>
       <p>
       <div id="player"></div>
-      <% if @resource.content_type === 'mp4' %>
         <script>
             jwplayer("player").setup({
-                sources: [{
-                    file: "rtmp://<%= Figaro.env.wowza_server =%>/reserves/<%= @resource.content_type %>:<%= @resource.item_id %>.<%= @resource.content_type %>"
-                }, {
-                    file: "http://<%= Figaro.env.wowza_server =%>/reserves/<%= @resource.content_type %>:<%= @resource.item_id %>.<%= @resource.content_type %>/playlist.m3u8"
+                playlist: [{
+                    sources: [{
+                        file: "rtmp://<%= Figaro.env.wowza_server =%>/reserves/<%= @resource.item_id %>.<%= @resource.content_type %>"
+                    }, {
+                        file: "http://<%= Figaro.env.wowza_server =%>/reserves/<%= @resource.content_type %>:<%= @resource.item_id %>.<%= @resource.content_type %>/playlist.m3u8"
+                    }]
                 }],
                 mediaid: "<%= @resource.media_id %>"
                 ,
@@ -23,23 +24,6 @@
                 fallback: true
             });
         </script>
-      <% else %>
-        <script>
-            jwplayer("player").setup({
-                sources: [{
-                    file: "rtmp://<%= Figaro.env.wowza_server =%>/reserves/<%= @resource.content_type %>:<%= @resource.item_id %>.<%= @resource.content_type %>"
-                }, {
-                    file: "http://<%= Figaro.env.wowza_server =%>/reserves/<%= @resource.content_type %>:<%= @resource.item_id %>.<%= @resource.content_type %>"
-                }],
-                mediaid: "<%= @resource.media_id %>"
-                ,
-                rtmp: {
-                    bufferlength: 3
-                },
-                fallback: true
-            });
-        </script>
-      <% end %>
       </p>
     </div>
   </div>
