@@ -32,9 +32,33 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><%= link_to "Home", "/" %></li>
-        <li><%= link_to "Upload", new_resource_path %></li>
-        <li><%= link_to "List", resources_path %></li>
+<!--        <li><%#= link_to "Upload", new_resource_path %></li>-->
+        <% if user_signed_in? and current_user[:group] == 'superadmin' %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Upload Routes
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Default Upload", new_resource_path %></li>
+              <li><%= link_to "Upload Music", music_upload_path %></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">List
+              Routes
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "List All", resources_path %></li>
+              <li><%= link_to "List Music", music_admin_path %></li>
+            </ul>
+          </li>
+        <% elsif user_signed_in? and current_user[:group] == 'mradmin' %>
+          <li><%= link_to "Upload Music", music_upload_path %></li>
+          <li><%= link_to "List Music", music_upload_path %></li>
+        <% else %>
+        <% end %>
+
       </ul>
+
     </div><!--/.nav-collapse -->
   </div>
 </nav>

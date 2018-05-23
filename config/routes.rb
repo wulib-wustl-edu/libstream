@@ -7,5 +7,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'music_admin', to: 'resources#music_index'
+  get 'music_upload', to: 'resources#music_upload'
+  get 'access_denied', to: 'resources#access_denied'
   root 'resources#home'
 end

@@ -1,9 +1,25 @@
 class ResourcesController < ApplicationController
   skip_before_action :verify_authenticity_token
   helper_method :sort_column, :sort_direction
-  before_action :authenticate_user!, :except => [:home]
+  before_action :authenticate_user!
 
   def home
+  end
+
+  def music_index
+    if current_user[:group] == 'mradmin' || 'superadmin'
+      @resources = Resource.where("content_type = 'music'", params[:content_type]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      if params[:search]
+        @resources = Resource.where("content_type = 'music'", params[:content_type]).search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      else
+        @resources = Resource.where("content_type = 'music'", params[:content_type]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      end
+    else
+      render 'access_denied'
+    end
+  end
+
+  def music_upload
   end
 
   def index
@@ -31,9 +47,6 @@ class ResourcesController < ApplicationController
     # create temp resource and make call to ares for values
     temp_resource = ares_call(query_id)
 
-    content_type = resource_params[:video].content_type.partition('/').last
-
-    temp_resource[:content_type] = content_type
     temp_resource[:size] = File.size(resource_params[:video].tempfile)
 
     @temp_upload = Resource.new(temp_resource)
@@ -120,7 +133,6 @@ class ResourcesController < ApplicationController
       response = Typhoeus.post(signed_url)
       @resource.destroy
     end
-
     redirect_to resources_path
   end
 
@@ -128,7 +140,7 @@ class ResourcesController < ApplicationController
     resource = Hash.new
     # Call to Ares based on ItemID
     client = TinyTds::Client.new username: Figaro.env.ares_user, password: Figaro.env.ares_password, host: Figaro.env.ares_host, database: Figaro.env.ares_db
-    video = client.execute('SELECT ItemID, Title, Items.Description, Author, PubDate, ArticleTitle, Items.CourseID AS AresCourseID, Courses.Name AS CourseName, Courses.Semester, Courses.Instructor FROM Items JOIN Courses ON Items.CourseID = Courses.CourseID WHERE ItemID = ' + query_id.to_s)
+    video = client.execute('SELECT ItemID, Title, Items.Description, Items.PickupLocation, Author, PubDate, ArticleTitle, Items.CourseID AS AresCourseID, Courses.Name AS CourseName, Courses.Semester, Courses.Instructor FROM Items JOIN Courses ON Items.CourseID = Courses.CourseID WHERE ItemID = ' + query_id.to_s)
 
     video.each(:symbolize_keys => true, :cache_rows => false) do |row|
       resource[:item_id] = row[:ItemID]
@@ -138,6 +150,7 @@ class ResourcesController < ApplicationController
       resource[:semester] = row[:Semester]
       resource[:course_id] = row[:AresCourseID]
       resource[:course_name] = row[:CourseName]
+      resource[:content_type] = row[:PickupLocation].downcase
       resource[:media_id] = ""
       resource[:video] = ""
     end
@@ -157,7 +170,7 @@ class ResourcesController < ApplicationController
 
   private
   def resource_params
-    params.require(:resource).permit(:id, :item_id, :title, :subtitles, :course_id, :course_name, :semester, :instructor, :url, :type, :hashid, :video, :media_id, :size, :resource)
+    params.require(:resource).permit(:id, :item_id, :title, :subtitles, :course_id, :course_name, :semester, :content_type, :instructor, :url, :type, :hashid, :video, :media_id, :size, :resource)
   end
 
   def sort_column
