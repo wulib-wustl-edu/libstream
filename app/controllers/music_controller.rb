@@ -1,4 +1,4 @@
-class ResourcesController < ApplicationController
+class MusicController < ApplicationController
   skip_before_action :verify_authenticity_token
   helper_method :sort_column, :sort_direction
   before_action :authenticate_user!
@@ -7,31 +7,35 @@ class ResourcesController < ApplicationController
   end
 
   def index
-    @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
-    if params[:search]
-      @resources = Resource.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
-    else
-      @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
-    end
-  end
-
-  def show
-    if current_user[:group] == 'superadmin'
-      @resource = Resource.find(params[:id])
+    if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
+      @resources = Resource.where("content_type = 'music'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      if params[:search]
+        @resources = Resource.where("content_type = 'music'").search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      else
+        @resources = Resource.where("content_type = 'music'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      end
     else
       render 'resources/access_denied'
     end
   end
 
+  def show
+    @resource = Resource.find(params[:id])
+  end
+
   def new
-    if current_user[:group] == 'superadmin'
+    if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
     else
       render 'resources/access_denied'
     end
   end
 
   def edit
-    @resource = Resource.find(params[:id])
+    if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
+      @resource = Resource.find(params[:id])
+    else
+      render 'resources/access_denied'
+    end
   end
 
   def create
@@ -40,6 +44,9 @@ class ResourcesController < ApplicationController
     temp_resource = ares_call(query_id)
 
     temp_resource[:size] = File.size(resource_params[:video].tempfile)
+    temp_resource[:content_type] = 'music'
+
+    puts temp_resource
 
     @temp_upload = Resource.new(temp_resource)
 
@@ -103,33 +110,41 @@ class ResourcesController < ApplicationController
 
 
   def destroy
-    @resource = Resource.find(params[:id])
+    if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
+      @resource = Resource.find(params[:id])
 
-    # Initiate call to JW Player for delete
-    jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-    signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
-    response = Typhoeus.post(signed_url)
+      # Initiate call to JW Player for delete
+      jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+      signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+      response = Typhoeus.post(signed_url)
 
-    @resource.destroy
+      @resource.destroy
 
-    redirect_to resources_path
+      redirect_to music_index_path
+    else
+      render 'resources/access_denied'
+    end
   end
 
   def destroy_multiple
-    @resources = params[:resource_ids].to_a
+    if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
+      @resources = params[:resource_ids].to_a
 
-    if @resources.present?
-      @resources.each do |resource_id|
-        @resource = Resource.find(resource_id.to_i)
-        # Initiate call to JW Player for delete
-        jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-        signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
-        response = Typhoeus.post(signed_url)
-        @resource.destroy
+      if @resources.present?
+        @resources.each do |resource_id|
+          @resource = Resource.find(resource_id.to_i)
+          # Initiate call to JW Player for delete
+          jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+          signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+          response = Typhoeus.post(signed_url)
+          @resource.destroy
+        end
+        redirect_to music_index_path
+      else
+        redirect_to music_index_path
       end
-      redirect_to resources_path
     else
-      redirect_to resources_path
+      render 'resources/access_denied'
     end
   end
 
@@ -165,7 +180,6 @@ class ResourcesController < ApplicationController
   end
 
   private
-
   def resource_params
     params.require(:resource).permit(:id, :item_id, :title, :subtitles, :course_id, :course_name, :semester, :content_type, :instructor, :url, :type, :hashid, :video, :media_id, :size, :resource)
   end

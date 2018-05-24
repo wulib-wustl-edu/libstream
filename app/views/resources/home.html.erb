@@ -17,14 +17,13 @@
           </div>
           <div class="panel-body">
             <p>Upload video files for streaming.</p>
-<!--            <p><%#= link_to "Upload", new_resource_path, :class => "btn btn-default" %></p>-->
             <% if current_user[:group] == 'superadmin' %>
-              <p><%= link_to "Upload", new_resource_path, :class => "btn btn-default" %></p>
-              <p><%= link_to "Upload Music", music_upload_path, :class => "btn btn-default" %></p>
+              <p><%= link_to "Upload Music", new_music_path, :class => "btn btn-default" %></p>
+              <p><%= link_to "Upload Video", new_video_path, :class => "btn btn-default" %></p>
             <% elsif current_user[:group] == 'mradmin' %>
-              <p><%= link_to "Upload Music", music_upload_path, :class => "btn btn-default" %></p>
+              <p><%= link_to "Upload Music", new_music_path, :class => "btn btn-default" %></p>
             <% elsif current_user[:group] == 'sradmin' %>
-              <p><%= link_to "Upload Video", music_upload_path, :class => "btn btn-default" %></p>
+              <p><%= link_to "Upload Video", new_video_path, :class => "btn btn-default" %></p>
             <% end %>
           </div>
         </div>
@@ -38,11 +37,12 @@
             <p>Manage and review list of streaming reserves</p>
             <% if current_user[:group] == 'superadmin' %>
               <p><%= link_to "All", resources_path, :class => "btn btn-default" %></p>
-              <p><%= link_to "Music", music_admin_path, :class => "btn btn-default" %></p>
+              <p><%= link_to "Music", music_index_path, :class => "btn btn-default" %></p>
+              <p><%= link_to "Video", videos_path, :class => "btn btn-default" %></p>
             <% elsif current_user[:group] == 'mradmin' %>
-              <p><%= link_to "Music", music_admin_path, :class => "btn btn-default" %></p>
+              <p><%= link_to "Music", music_index_path, :class => "btn btn-default" %></p>
             <% elsif current_user[:group] == 'sradmin' %>
-              <p><%= link_to "Video", music_admin_path, :class => "btn btn-default" %></p>
+              <p><%= link_to "Video", videos_path, :class => "btn btn-default" %></p>
             <% end %>
           </div>
         </div>

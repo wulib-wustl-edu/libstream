@@ -1,29 +1,11 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
-$(document).on 'turbolinks:load', ->
-  $('.checkAll').on 'click', ->
-    $(this).closest('table').find('tbody :checkbox').prop('checked', @checked).closest('tr').toggleClass 'selected', @checked
-    return
-  $('tbody :checkbox').on 'click', ->
-    $(this).closest('tr').toggleClass 'selected', @checked
-    $(this).closest('table').find('.checkAll').prop 'checked', $(this).closest('table').find('tbody :checkbox:checked').length == $(this).closest('table').find('tbody :checkbox').length
-    return
-  return
-
-$(document).on 'turbolinks:load', ->
-  setTimeout (->
-    $('.alert').remove()
-    return
-  ), 3000
-  return
-
-jwplayer.key = 'UsAbh+H0EIus1QAay94tDANQsnbPuE3wRYonzXdAwok='
 
 $(document).on 'turbolinks:load', ->
   'use strict'
   # Change this to the location of your server-side upload handler:
-  url = if window.location.hostname == 'localhost:3000' then '//jquery-file-upload.appspot.com/' else '/resources'
+  url = if window.location.hostname == 'localhost:3000' then '//jquery-file-upload.appspot.com/' else '/videos'
   uploadButton = $('<button/>').addClass('btn btn-primary').prop('disabled', true).text('Processing...').on('click', ->
     $this = $(this)
     data = $this.data()
@@ -36,7 +18,7 @@ $(document).on 'turbolinks:load', ->
       return
     return
   )
-  $('#fileupload').fileupload(
+  $('#video_fileupload').fileupload(
     url: url
     dataType: 'json'
     paramName: 'resource[video]'

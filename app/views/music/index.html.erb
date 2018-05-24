@@ -1,16 +1,16 @@
-<% provide(:title, "Resources") %>
+<% provide(:title, "Music") %>
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><h4>Reserves</h4></div>
+  <div class="panel-heading"><h4>Music Reserves</h4></div>
   <div class="panel-body">
     <p>
-    <form class="form-inline" action="/music_admin" method="get" id="search-form">
+    <form class="form-inline" action="/resources" method="get" id="search-form">
       <label class="sr-only" for="search">Name</label>
       <input type="text" class="form-control mb-2 mr-sm-2" id="search" name="search" placeholder="Search Resources">
       <button type="submit" class="btn btn-warning">Search</button>
     </form>
     </p>
-    <form action="/resources/destroy_multiple" method="post" %>
+    <form action="/music/destroy_multiple" method="post" %>
       <table class="table">
         <tr>
           <th><input type="checkbox" class="checkAll" name="checkAll" /></th>
@@ -21,6 +21,7 @@
           <th><%= sortable "course_name", "Course Name" %></th>
           <th><%= sortable "semester", "Semester" %></th>
           <th><%= sortable "instructor", "Instructor" %></th>
+          <th><%= sortable "content_type", "Content Type" %></th>
           <th>URL</th>
           <th>Delete</th>
         </tr>
@@ -34,14 +35,19 @@
             <td><%= resource.course_name %></td>
             <td><%= resource.semester %></td>
             <td><%= resource.instructor %></td>
-            <td><%= "http://#{request.host}:3000" + resource_path(resource).to_s %></td>
+            <td><%= resource.content_type %></td>
             <td>
-              <button type="button" class="btn btn-primary"><%= link_to 'Delete', resource_path(resource), method: :delete, data: {confirm: 'Are you sure?'} %></button>
+              <button type="button" class="btn btn-info" onclick="window.prompt('Press Ctrl-C to copy URL','<%= "http://#{request.host}:3000" + music_path(resource).to_s %>')">Show
+                URL
+              </button>
+            </td>
+            <td>
+              <%= link_to 'Delete', music_path(resource), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-primary' %>
             </td>
           </tr>
         <% end %>
       </table>
-      <button type="submit" class="btn btn-primary">Delete Checked</button>
+      <%= submit_tag "Delete Checked", class: "btn btn-primary", data: {confirm: 'Are you sure?'} %>
     </form>
   </div>
   <div class="text-center">

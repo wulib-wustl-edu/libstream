@@ -1,7 +1,7 @@
-<% provide(:title, "Resources") %>
+<% provide(:title, "Videos") %>
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><h4>All Reserves</h4></div>
+  <div class="panel-heading"><h4>Video Reserves</h4></div>
   <div class="panel-body">
     <p>
     <form class="form-inline" action="/resources" method="get" id="search-form">
@@ -10,7 +10,7 @@
       <button type="submit" class="btn btn-warning">Search</button>
     </form>
     </p>
-    <form action="/resources/destroy_multiple" method="post" %>
+    <form action="/videos/destroy_multiple" method="post" %>
       <table class="table">
         <tr>
           <th><input type="checkbox" class="checkAll" name="checkAll" /></th>
@@ -37,16 +37,12 @@
             <td><%= resource.instructor %></td>
             <td><%= resource.content_type %></td>
             <td>
-              <% if resource.content_type == 'music' %>
-                <button type="button" class="btn btn-info" onclick="window.prompt('Press Ctrl-C to copy URL','<%= "http://#{request.host}:3000" + music_path(resource).to_s %>')">Show URL</button>
-              <% elsif resource.content_type == 'video' %>
-                <button type="button" class="btn btn-info" onclick="window.prompt('Press Ctrl-C to copy URL','<%= "http://#{request.host}:3000" + video_path(resource).to_s %>')">Show URL</button>
-              <% else %>
-                <button type="button" class="btn btn-info" onclick="window.prompt('Press Ctrl-C to copy URL','<%= "http://#{request.host}:3000" + resource_path(resource).to_s %>')">Show URL</button>
-              <% end %>
+              <button type="button" class="btn btn-info" onclick="window.prompt('Press Ctrl-C to copy URL','<%= "http://#{request.host}:3000" + video_path(resource).to_s %>')">Show
+                URL
+              </button>
             </td>
             <td>
-              <%= link_to 'Delete', resource_path(resource), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-primary' %>
+              <%= link_to 'Delete', video_path(resource), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-primary' %>
             </td>
           </tr>
         <% end %>
