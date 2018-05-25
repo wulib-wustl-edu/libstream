@@ -31,7 +31,7 @@ class VideosController < ApplicationController
   end
 
   def edit
-    if current_user[:group] == 'sradmin' || current_user[:group] == 'superadmin'
+    if current_user[:group] == 'superadmin'
      @resource = Resource.find(params[:id])
     else
       render 'resources/access_denied'

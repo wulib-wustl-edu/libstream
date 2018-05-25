@@ -1,40 +1,30 @@
-<h1>Update Video</h1>
+<div class="container">
+  <h1>Update Video</h1>
 
-<h1>Edit article</h1>
+  <%= form_with(model: @resource, local: true) do |form| %>
 
-<%= form_with(model: @resource, local: true) do |form| %>
+    <% if @resource.errors.any? %>
+      <div id="error_explanation">
+        <h2>
+          <%= pluralize(@resource.errors.count, "error") %> prohibited
+          this article from being saved:
+        </h2>
+        <ul>
+          <% @resource.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <p>
+      <%= form.label 'Item#' %><br>
+      <%= form.text_field :item_id%>
+    </p>
 
-  <% if @resource.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(@resource.errors.count, "error") %> prohibited
-        this article from being saved:
-      </h2>
-      <ul>
-        <% @resource.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
+    <p>
+      <%= form.submit class: 'btn btn-primary' %>
+    </p>
   <% end %>
-  <p>
-    <%= form.label 'Item#' %><br>
-    <%= form.text_field :item_id %>
-  </p>
 
-  <p>
-    <%= form.label :title %><br>
-    <%= form.text_field :title %>
-  </p>
-
-  <p>
-    <%= form.label :instructor %><br>
-    <%= form.text_field :instructor %>
-  </p>
-
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', resources_path %>
+  <%= link_to 'Back', videos_path, class: 'btn btn-default' %>
+</div>
