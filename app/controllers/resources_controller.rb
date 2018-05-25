@@ -7,11 +7,15 @@ class ResourcesController < ApplicationController
   end
 
   def index
-    @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
-    if params[:search]
-      @resources = Resource.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
-    else
+    if current_user[:group] == 'superadmin'
       @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      if params[:search]
+        @resources = Resource.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      else
+        @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      end
+    else
+      render 'resources/access_denied'
     end
   end
 
@@ -31,7 +35,11 @@ class ResourcesController < ApplicationController
   end
 
   def edit
-    @resource = Resource.find(params[:id])
+    if current_user[:group] == 'superadmin'
+      @resource = Resource.find(params[:id])
+    else
+      render 'resources/access_denied'
+    end
   end
 
   def create
@@ -103,33 +111,41 @@ class ResourcesController < ApplicationController
 
 
   def destroy
-    @resource = Resource.find(params[:id])
+    if current_user[:group] == 'superadmin'
+      @resource = Resource.find(params[:id])
 
-    # Initiate call to JW Player for delete
-    jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-    signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
-    response = Typhoeus.post(signed_url)
+      # Initiate call to JW Player for delete
+      jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+      signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+      response = Typhoeus.post(signed_url)
 
-    @resource.destroy
+      @resource.destroy
 
-    redirect_to resources_path
+      redirect_to resources_path
+    else
+      render 'resources/access_denied'
+    end
   end
 
   def destroy_multiple
-    @resources = params[:resource_ids].to_a
+    if current_user[:group] == 'superadmin'
+      @resources = params[:resource_ids].to_a
 
-    if @resources.present?
-      @resources.each do |resource_id|
-        @resource = Resource.find(resource_id.to_i)
-        # Initiate call to JW Player for delete
-        jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-        signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
-        response = Typhoeus.post(signed_url)
-        @resource.destroy
+      if @resources.present?
+        @resources.each do |resource_id|
+          @resource = Resource.find(resource_id.to_i)
+          # Initiate call to JW Player for delete
+          jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+          signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+          response = Typhoeus.post(signed_url)
+          @resource.destroy
+        end
+        redirect_to resources_path
+      else
+        redirect_to resources_path
       end
-      redirect_to resources_path
     else
-      redirect_to resources_path
+      render 'resources/access_denied'
     end
   end
 
