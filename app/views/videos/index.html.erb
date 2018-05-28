@@ -37,7 +37,7 @@
             <td><%= resource.instructor %></td>
             <td><%= resource.content_type %></td>
             <td>
-              <button type="button" class="btn btn-info" onclick="window.prompt('Press Ctrl-C to copy URL','<%= "http://#{request.host}:3000" + video_path(resource).to_s %>')">Show
+              <button type="button" class="btn btn-info" onclick="window.prompt('Press Ctrl-C to copy URL','http://' + '<%= Figaro.env.request_host %>' + '<%= video_path(resource).to_s %>')">Show
                 URL
               </button>
             </td>
