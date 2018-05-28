@@ -58,11 +58,10 @@ TODO.txt
 # Ignore application configuration
 /config/application.yml
 uploads/
-public/uploads
 config/ldap.yml
-=======
-/public/uploads
 /cache
 package-lock.json
+.ruby-version
+yarn-lock
 
 .DS_Store
