@@ -62,6 +62,6 @@ config/ldap.yml
 /cache
 package-lock.json
 .ruby-version
-yarn-lock
+yarn.lock
 
 .DS_Store
