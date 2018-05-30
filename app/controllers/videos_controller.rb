@@ -84,15 +84,14 @@ class VideosController < ApplicationController
     respond_to do |format|
       if @upload.save
         format.html {
-          render :json => [@upload].to_json,
+          render :json => [@upload.to_jq_upload].to_json,
                  :content_type => 'text/html',
-                 :notice => 'Upload Successful',
                  :layout => false
         }
-        format.json { render json: {files: [@upload]}, status: :created, location: @upload }
+        format.json { render json: {files: [@upload.to_jq_upload]}, status: :created, location: @upload}
       else
         format.html { render action: "new" }
-        format.json { render json: @upload.errors, status: :unprocessable_entity }
+        format.json { render json: [@upload.to_jq_upload].errors, status: :unprocessable_entity }
       end
     end
   end
@@ -121,6 +120,22 @@ class VideosController < ApplicationController
       redirect_to videos_path
     else
       render 'resources/access_denied'
+    end
+  end
+
+  def destroy_upload
+    if current_user[:group] == 'superadmin'
+      @resource = Resource.find_by(:video => params[:name].to_s + '.mp4')
+      if @resource.present?
+        # Initiate call to JW Player for delete
+        jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+        signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+        response = Typhoeus.post(signed_url)
+        @resource.destroy
+        redirect_to new_videos_path(@resource, format: :json)
+      end
+    else
+      render 'new'
     end
   end
 
