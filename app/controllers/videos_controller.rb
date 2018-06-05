@@ -79,8 +79,11 @@ class VideosController < ApplicationController
 
     # carrierwave connection for delete/upload attachment
     @upload[:video] = name
-
-
+  rescue ArgumentError => error
+    logger.warn "#{error}"
+    flash[:error] = "Upload Failed. Please Contact Sys Admin."
+    render json: {:error => error.to_s}, status: :unprocessable_entity
+  else
     respond_to do |format|
       if @upload.save
         format.html {
@@ -109,15 +112,20 @@ class VideosController < ApplicationController
 
   def destroy
     if current_user[:group] == 'sradmin' || current_user[:group] == 'superadmin'
-      @resource = Resource.find(params[:id])
+      begin
+        @resource = Resource.find(params[:id])
 
-      # Initiate call to JW Player for delete
-      jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-      signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
-      response = Typhoeus.post(signed_url)
-
-      @resource.destroy
-      redirect_to videos_path
+        # Initiate call to JW Player for delete
+        jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+        signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+        response = Typhoeus.post(signed_url)
+        @resource.destroy
+        redirect_to videos_path
+      rescue ArgumentError => error
+        logger.warn "#{error}"
+        flash[:error] = 'Delete Failed. Please contact Sys Admin'
+        redirect_to videos_path
+      end
     else
       render 'resources/access_denied'
     end
@@ -125,14 +133,19 @@ class VideosController < ApplicationController
 
   def destroy_upload
     if current_user[:group] == 'superadmin'
-      @resource = Resource.find_by(:video => params[:name].to_s + '.mp4')
-      if @resource.present?
-        # Initiate call to JW Player for delete
-        jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-        signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
-        response = Typhoeus.post(signed_url)
-        @resource.destroy
-        redirect_to new_videos_path(@resource, format: :json)
+      begin
+        @resource = Resource.find_by(:video => params[:name].to_s + '.mp4')
+        if @resource.present?
+          # Initiate call to JW Player for delete
+          jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+          signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+          response = Typhoeus.post(signed_url)
+          @resource.destroy
+          redirect_to new_video_path(@resource, format: :json)
+        end
+      rescue ArgumentError => error
+        logger.warn "#{error}"
+        flash[:error] = 'Delete Failed. Please contact Sys Admin'
       end
     else
       render 'new'
@@ -141,19 +154,23 @@ class VideosController < ApplicationController
 
   def destroy_multiple
     if current_user[:group] == 'sradmin' || current_user[:group] == 'superadmin'
-      @resources = params[:resource_ids].to_a
+      begin
+        @resources = params[:resource_ids].to_a
 
-      if @resources.present?
-        @resources.each do |resource_id|
-          @resource = Resource.find(resource_id.to_i)
-          # Initiate call to JW Player for delete
-          jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-          signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
-          response = Typhoeus.post(signed_url)
-          @resource.destroy
+        if @resources.present?
+          @resources.each do |resource_id|
+            @resource = Resource.find(resource_id.to_i)
+            # Initiate call to JW Player for delete
+            jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+            signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+            response = Typhoeus.post(signed_url)
+            @resource.destroy
+          end
+          redirect_to videos_path
         end
-        redirect_to videos_path
-      else
+      rescue ArgumentError => error
+        logger.warn "#{error}"
+        flash[:error] = 'Delete Failed. Please contact Sys Admin'
         redirect_to videos_path
       end
     else

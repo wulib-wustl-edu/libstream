@@ -80,8 +80,11 @@ class MusicController < ApplicationController
 
     # carrierwave connection for delete/upload attachment
     @upload[:video] = name
-
-
+  rescue ArgumentError => error
+    logger.warn "#{error}"
+    flash[:error] = "Upload Failed. Please Contact Sys Admin."
+    render json: {:error => error.to_s}, status: :unprocessable_entity
+  else
     respond_to do |format|
       if @upload.save
         format.html {
@@ -109,7 +112,7 @@ class MusicController < ApplicationController
 
 
   def destroy
-    if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
+    if current_user[:group] == 'sradmin' || current_user[:group] == 'superadmin'
       begin
         @resource = Resource.find(params[:id])
 
@@ -117,11 +120,11 @@ class MusicController < ApplicationController
         jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
         signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
         response = Typhoeus.post(signed_url)
-
         @resource.destroy
-
         redirect_to music_index_path
-      rescue
+      rescue ArgumentError => error
+        logger.warn "#{error}"
+        flash[:error] = 'Delete Failed. Please contact Sys Admin'
         redirect_to music_index_path
       end
     else
@@ -131,14 +134,19 @@ class MusicController < ApplicationController
 
   def destroy_upload
     if current_user[:group] == 'superadmin'
-      @resource = Resource.find_by(:video => params[:name].to_s + '.mp4')
-      if @resource.present?
-        # Initiate call to JW Player for delete
-        jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-        signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
-        response = Typhoeus.post(signed_url)
-        @resource.destroy
-        redirect_to new_music(@resource, format: :json)
+      begin
+        @resource = Resource.find_by(:video => params[:name].to_s + '.mp4')
+        if @resource.present?
+          # Initiate call to JW Player for delete
+          jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+          signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+          response = Typhoeus.post(signed_url)
+          @resource.destroy
+          redirect_to new_music_path(@resource, format: :json)
+        end
+      rescue ArgumentError => error
+        logger.warn "#{error}"
+        flash[:error] = 'Delete Failed. Please contact Sys Admin'
       end
     else
       render 'new'
@@ -146,20 +154,24 @@ class MusicController < ApplicationController
   end
 
   def destroy_multiple
-    if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
-      @resources = params[:resource_ids].to_a
+    if current_user[:group] == 'sradmin' || current_user[:group] == 'superadmin'
+      begin
+        @resources = params[:resource_ids].to_a
 
-      if @resources.present?
-        @resources.each do |resource_id|
-          @resource = Resource.find(resource_id.to_i)
-          # Initiate call to JW Player for delete
-          jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-          signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
-          response = Typhoeus.post(signed_url)
-          @resource.destroy
+        if @resources.present?
+          @resources.each do |resource_id|
+            @resource = Resource.find(resource_id.to_i)
+            # Initiate call to JW Player for delete
+            jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+            signed_url = jw_call.signed_url('videos/delete', 'video_key': @resource.media_id)
+            response = Typhoeus.post(signed_url)
+            @resource.destroy
+          end
+          redirect_to music_index_path
         end
-        redirect_to music_index_path
-      else
+      rescue ArgumentError => error
+        logger.warn "#{error}"
+        flash[:error] = 'Delete Failed. Please contact Sys Admin'
         redirect_to music_index_path
       end
     else
