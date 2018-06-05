@@ -8,89 +8,126 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color: #a51417;
-}
-
 
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
 body > .container {
-  padding: 60px 10px 60px 10px;
-}
-.container .text-muted {
-  margin: 20px 0;
+    padding: 60px 10px 50% 10px;
 }
 
-.footer > .container {
-  /*padding-right: 15px;*/
-  /*padding-left: 15px;*/
-  /*background-color: #a51417;*/
+.footer {
+    width: 100%;
+    position: absolute;
+    bottom: -15px;
 }
 
-body > footer > div > div.col-md-4 > p > a:hover {
-  color: rgb(255, 255, 255);
+.footer > .row.bottom {
+    background-color: #555;
+    text-align: left;
+    padding: 10px 25%;
 }
 
-body > footer > div > div.col-md-4 > p > a:active {
-  color: rgb(255, 255, 255);
+.footer > .row.runner {
+    background-color: #a51417;
+    text-align: left;
+    padding: 20px 25%;
+}
+
+.footer > .row.bottom > .col-md-4 > .panel-default {
+    background-color: #555;
+    color: rgb(255, 255, 255);
+    border: none;
+    -webkit-box-shadow: none;
+}
+
+.footer > .row.bottom > .col-md-4 > .panel > .panel-heading {
+    background-color: #555;
+    color: rgb(255, 255, 255);
+    border: none;
+}
+
+.footer > .row.bottom > .col-md-4 > .panel > .panel-heading > .panel-title {
+    background-color: #555;
+    color: rgb(255, 255, 255);
+    border: none;
+    text-align: left;
+}
+
+.footer > .row.bottom > .col-md-4 > .panel > .panel-body {
+    background-color: #555;
+    color: rgb(255, 255, 255);
+    border: none;
+    text-align: left;
+    padding-top: 5px;
+}
+
+.footer > .row.bottom > .col-md-4 > .panel > .panel-body > .list-group .list-group-item, .panel>.panel-collapse>.list-group .list-group-item {
+    background-color: #555;
+    color: rgb(255, 255, 255);
+    padding: 0px;
+    text-align: left;
+    border: none;
+}
+
+.footer > .row.bottom > .col-md-4 > .panel > .panel-body > .list-group > a:hover {
+    color: rgb(255, 255, 255);
+    text-decoration: underline;
+}
+
+.footer > .row.bottom > .col-md-4 > .panel > .panel-body > p > a {
+    color: rgb(255, 255, 255);
+}
+
+.footer > .row.runner > .container > .col-md-4 > p.text-muted {
+    color: rgb(255, 255, 255);
+}
+
+.footer > .row.runner > .container > .col-md-4 > a {
+    color: rgb(255, 255, 255);
+}
+
+.footer > .row.runner > .container > .col-md-4 > a:hover {
+    color: rgb(255, 255, 255);
+}
+
+.footer > .row.runner > .container > .col-md-4 > a:active {
+    color: rgb(255, 255, 255);
+}
+
+.footer > .row.runner > .container > .col-md-4 > a > span {
+    color: rgb(255, 255, 255);
+    padding-left: 5px;
+}
+
+.footer > .row.runner > .container > .col-md-8 > p.text-muted {
+    color: rgb(255, 255, 255);
+}
+
+
+.footer >  span.glyphicon.glyphicon-triangle-top {
+    position: absolute;
+    left: 50%;
+    top: -11px;
+    color: #555;
 }
 
 .navbar-inverse {
-  background-color: #6c7373;
-  border-color: #535959;
-  border-radius: 0px;
+    background-color: #555;
+    border-color: #535959;
+    border-radius: 0px;
 }
 
-.bottom {
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 25px 0 60px 0;
-  /*position: absolute;*/
-  background-color: #6c7373;
-  text-align: center;
+.page-header {
+    font-family: 'Libre Baskerville', serif;
+    font-weight: bolder;
+    color: black;
+    margin-left: 25%;
+    padding: 25px;
 }
 
-.bottom > .row > .col-md-4 > .panel {
-  background-color: #6c7373;
-  color: rgb(255, 255, 255);
-  border: none;
-}
 
-.bottom > .row > .col-md-4 > .panel > .panel-heading {
-  background-color: #6c7373;
-  color: rgb(255, 255, 255);
-  border: none;
-}
-
-.bottom > .row > .col-md-4 > .panel > .panel-body {
-  background-color: #6c7373;
-  color: rgb(255, 255, 255);
-  border: none;
-}
-
-.bottom > .row > .col-md-4 > .panel > .panel-body > p > a {
-  color: rgb(255, 255, 255);
-}
-
-.bottom > .row > .col-md-4 > .panel > .list-group .list-group-item, .panel>.panel-collapse>.list-group .list-group-item {
-  background-color: #6c7373;
-  color: rgb(255, 255, 255);
-  padding: 0px;
-}
-
-.bottom.container-fluid > .row > .col-md-4 > .panel > .list-group > a:hover {
-  color: rgb(255, 255, 255);
-  text-decoration: underline;
-}
 
 
 code {

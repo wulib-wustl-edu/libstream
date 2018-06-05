@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <%= link_to(image_tag('https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/washu-logo-1linerev.svg', :alt => 'Washington University in St. Louis', :class =>  'navbar-brand'), "https://wustl.ed/") %>
+      <%= link_to(image_tag('https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/washu-logo-1linerev.svg', :alt => 'Washington University in St. Louis', :class =>  'navbar-brand'), "https://wustl.edu/") %>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse">
@@ -31,32 +31,31 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><%= link_to "Home", "/" %></li>
+        <li><%= link_to "HOME", "/" %></li>
         <% if user_signed_in? and current_user[:group] == 'superadmin' %>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Upload Routes
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">UPLOAD ROUTES
               <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Upload Music", new_music_path %></li>
-              <li><%= link_to "Upload Video", new_video_path %></li>
+              <li><%= link_to "UPLOAD MUSIC", new_music_path %></li>
+              <li><%= link_to "UPLOAD VIDEO", new_video_path %></li>
             </ul>
           </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">List
-              Routes
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">LIST ROUTES
               <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "List All", resources_path %></li>
-              <li><%= link_to "List Music", music_index_path %></li>
-              <li><%= link_to "List Videos", videos_path %></li>
+              <li><%= link_to "LIST ALL", resources_path %></li>
+              <li><%= link_to "LIST MUSIC", music_index_path %></li>
+              <li><%= link_to "LIST VIDEOS", videos_path %></li>
             </ul>
           </li>
         <% elsif user_signed_in? and current_user[:group] == 'mradmin' %>
-          <li><%= link_to "Upload Music", new_music_path %></li>
-          <li><%= link_to "List Music", new_music_path %></li>
+          <li><%= link_to "UPLOAD MUSIC", new_music_path %></li>
+          <li><%= link_to "LIST MUSIC", new_music_path %></li>
         <% elsif user_signed_in? and current_user[:group] == 'sradmin' %>
-          <li><%= link_to "Upload Video", new_video_path %></li>
-          <li><%= link_to "List Videos", videos_path %></li>
+          <li><%= link_to "UPLOAD VIDEO", new_video_path %></li>
+          <li><%= link_to "LIST VIDEOS", videos_path %></li>
         <% else %>
         <% end %>
 

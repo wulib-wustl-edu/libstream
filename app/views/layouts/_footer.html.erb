@@ -1,5 +1,6 @@
-<div class="bottom container-fluid">
-  <div class="row">
+<footer class="footer">
+  <span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+  <div class="row bottom">
     <div class="col-md-4">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -19,18 +20,20 @@
         <div class="panel-heading">
           <h3 class="panel-title">Popular Links</h3>
         </div>
-        <!-- List group -->
-        <div class="list-group">
-          <%= link_to "FAQ", "http://libanswers.wustl.edu/", :class => 'list-group-item' %>
-          <%= link_to "My Accounts", "https://library.wustl.edu/services/mylib/", :class => 'list-group-item' %>
-          <%= link_to "Off-Campus Access", "http://libguides.wustl.edu/offcampusaccess", :class => 'list-group-item' %>
-          <%= link_to "InterLibrary Loan", "https://library.wustl.edu/services/ill/", :class => 'list-group-item' %>
-          <%= link_to "Subject Librarians", "http://library.wustl.edu/reserarch-instruction/subjectlibrarians/", :class => 'list-group-item' %>
-          <%= link_to "Reserve Group Study Room", "http://library.wustl.edu/services/circ/reservegroupstudy/", :class => 'list-group-item' %>
-          <%= link_to "Reserves", "http://library.wulib.edu/services/reserve/", :class => 'list-group-item' %>
-          <%= link_to "Library Staff Intranet", "https://collaboration.wustl.edu/depts/Ginkgo/", :class => 'list-group-item' %>
-          <%= link_to "Employment", "http://library.wulib.edu/jobs/", :class => 'list-group-item' %>
-          <%= link_to "Comments", "http://library.wulib.edu/services/forms/comments/", :class => 'list-group-item' %>
+        <div class="panel-body">
+          <!-- List group -->
+          <div class="list-group">
+            <%= link_to "FAQ", "http://libanswers.wustl.edu/", :class => 'list-group-item' %>
+            <%= link_to "My Accounts", "https://library.wustl.edu/services/mylib/", :class => 'list-group-item' %>
+            <%= link_to "Off-Campus Access", "http://libguides.wustl.edu/offcampusaccess", :class => 'list-group-item' %>
+            <%= link_to "InterLibrary Loan", "https://library.wustl.edu/services/ill/", :class => 'list-group-item' %>
+            <%= link_to "Subject Librarians", "http://library.wustl.edu/reserarch-instruction/subjectlibrarians/", :class => 'list-group-item' %>
+            <%= link_to "Reserve Group Study Room", "http://library.wustl.edu/services/circ/reservegroupstudy/", :class => 'list-group-item' %>
+            <%= link_to "Reserves", "http://library.wulib.edu/services/reserve/", :class => 'list-group-item' %>
+            <%= link_to "Library Staff Intranet", "https://collaboration.wustl.edu/depts/Ginkgo/", :class => 'list-group-item' %>
+            <%= link_to "Employment", "http://library.wulib.edu/jobs/", :class => 'list-group-item' %>
+            <%= link_to "Comments", "http://library.wulib.edu/services/forms/comments/", :class => 'list-group-item' %>
+          </div>
         </div>
       </div>
     </div>
@@ -41,22 +44,26 @@
         </div>
         <div class="panel-body">
           <p>
-            <%= link_to(image_tag('CAM_Horz_CMYKplusCustRed_solid_pos.png', :alt => 'Give to the Libraries', :style => 'width: 320px;height:auto;padding:4px;background-color:#fff'),  "https://gifts.wustl.edu/GiftForm.aspx?brd=Libraries") %>
+            <%= link_to(image_tag('CAM_Horz_CMYKplusCustRed_solid_pos.png', :alt => 'Give to the Libraries', :style => 'width: 320px;height:auto;padding:4px;background-color:#fff'), "https://gifts.wustl.edu/GiftForm.aspx?brd=Libraries") %>
             <br>
             <br>
-            <%= link_to(image_tag('olin-transformation-graphic-sm.jpg', :alt => 'Olin Transformation'),  "https://library.wustl.edu/units/olinlibrary/transformation/") %>
+            <%= link_to(image_tag('olin-transformation-graphic-sm.jpg', :alt => 'Olin Transformation'), "https://library.wustl.edu/units/olinlibrary/transformation/") %>
           </p>
         </div>
       </div>
     </div>
   </div>
-</div>
-<footer class="footer">
-  <div class="container">
-    <div class="col-md-8">
-      <p class="text-muted">&copy;Washington University in St. Louis</p>
+  <div class="row runner">
+    <div class="container">
+      <div class="col-md-8">
+        <p class="text-muted">&copy;Washington University in St. Louis</p>
+      </div>
+      <div class="col-md-4">
+        <%= link_to "Back To Top", "#", :class => 'text-muted' %>
+        <%= link_to "#" do %>
+          <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+        <% end %>
+      </div>
     </div>
-    <div class="col-md-4">
-      <p class="text-muted"><%= link_to "Back To Top", "#", :class => 'text-muted' %><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></p>
-    </div>
+  </div>
 </footer>
