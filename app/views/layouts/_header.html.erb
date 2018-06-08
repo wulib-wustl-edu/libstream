@@ -1,12 +1,15 @@
 <nav class="navbar navbar-default navbar-static-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
+  <div class="container">
+    <div class="navbar-header top">
       <%= link_to(image_tag('https://library.wustl.edu/wp-content/themes/wutheme_hoyt/images/washu-logo-1linerev.svg', :alt => 'Washington University in St. Louis', :class =>  'navbar-brand'), "https://wustl.edu/") %>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <%= render 'devise/menu/login_items' %>
+    <div class="top">
+      <ul class="nav navbar-nav navbar-right top">
+        <%#= render 'devise/menu/login_items' %>
+        <li>
+          <%= link_to('Streaming Reserves', '/') %>
+        </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div>
@@ -14,7 +17,6 @@
 
 <div class="page-header">
   <h1>University Libraries</h1>
-  <h3>Streaming Reserves</h3>
 </div>
 
 
@@ -58,9 +60,10 @@
           <li><%= link_to "LIST VIDEOS", videos_path %></li>
         <% else %>
         <% end %>
-
       </ul>
-
+      <ul class="nav navbar-nav navbar-right top">
+        <%= render 'devise/menu/login_items' %>
+      </ul>
     </div><!--/.nav-collapse -->
   </div>
 </nav>

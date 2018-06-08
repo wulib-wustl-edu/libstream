@@ -119,12 +119,20 @@ body > .container {
     border-radius: 0px;
 }
 
+.navbar-right.top {
+    font-family: 'Libre Baskerville', serif;
+}
+
 .page-header {
     font-family: 'Libre Baskerville', serif;
     font-weight: bolder;
-    color: black;
+    color: #363636;
     margin-left: 25%;
     padding: 25px;
+}
+
+.page-header > h1 {
+    padding: 0 0 15px 50px;
 }
 
 
@@ -162,4 +170,25 @@ code {
     border-color: #d6e9c6;
     color: #468847;
     text-align: left;
+}
+
+
+@media screen and (max-width: 768px) {
+
+.page-header {
+    font-family: 'Libre Baskerville', serif;
+    font-weight: bolder;
+    color: #363636;
+    /*margin-left: 20%;*/
+    padding: 25px;
+}
+
+.page-header > h1 {
+    padding: 0 0 15px 50px;
+    display: contents;
+}
+
+.navbar-right.top {
+}
+
 }
