@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
   skip_before_action :verify_authenticity_token
   helper_method :sort_column, :sort_direction
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :except => [:show]
 
   def home
   end
