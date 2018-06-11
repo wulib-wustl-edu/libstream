@@ -8,6 +8,7 @@
       <label class="sr-only" for="search">Name</label>
       <input type="text" class="form-control mb-2 mr-sm-2" id="search" name="search" placeholder="Search Resources">
       <button type="submit" class="btn btn-warning">Search</button>
+      <%= link_to 'Reset', music_index_path,  class: 'btn btn-info' %>
     </form>
     </p>
     <form action="/music/destroy_multiple" method="post">
