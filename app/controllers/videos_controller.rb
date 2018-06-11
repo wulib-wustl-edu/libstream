@@ -8,11 +8,11 @@ class VideosController < ApplicationController
 
   def index
     if current_user[:group] == 'sradmin' || current_user[:group] == 'superadmin'
-      @resources = Resource.where("content_type = 'video'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      @resources = Resource.where("content_group = 'sradmin'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
       if params[:search]
-        @resources = Resource.where("content_type = 'video'").search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+        @resources = Resource.where("content_group = 'sradmin'").search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
       else
-        @resources = Resource.where("content_type = 'video'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+        @resources = Resource.where("content_group = 'sradmin'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
       end
     else
       render 'resources/access_denied'
@@ -44,7 +44,12 @@ class VideosController < ApplicationController
     temp_resource = ares_call(query_id)
 
     temp_resource[:size] = File.size(resource_params[:video].tempfile)
-    temp_resource[:content_type] = 'video'
+    file_type = resource_params[:video].original_filename.to_s[-3, 3]
+    if file_type === 'm4a'
+      temp_resource[:content_type] = 'music'
+    elsif file_type === 'mp4'
+      temp_resource[:content_type] = 'video'
+    end
 
 
     @temp_upload = Resource.new(temp_resource)
@@ -192,6 +197,7 @@ class VideosController < ApplicationController
       resource[:semester] = row[:Semester]
       resource[:course_id] = row[:AresCourseID]
       resource[:course_name] = row[:CourseName]
+      resource[:content_group] = 'sradmin'
       resource[:media_id] = ""
       resource[:video] = ""
     end

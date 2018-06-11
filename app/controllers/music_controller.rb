@@ -8,11 +8,11 @@ class MusicController < ApplicationController
 
   def index
     if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
-      @resources = Resource.where("content_type = 'music'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      @resources = Resource.where("content_group = 'mradmin'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
       if params[:search]
-        @resources = Resource.where("content_type = 'music'").search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+        @resources = Resource.where("content_group = 'mradmin'").search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
       else
-        @resources = Resource.where("content_type = 'music'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+        @resources = Resource.where("content_group = 'mradmin'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
       end
     else
       render 'resources/access_denied'
@@ -40,11 +40,17 @@ class MusicController < ApplicationController
 
   def create
     query_id = resource_params[:video].original_filename.to_s[0..-5]
+
     # create temp resource and make call to ares for values
     temp_resource = ares_call(query_id)
 
     temp_resource[:size] = File.size(resource_params[:video].tempfile)
-    temp_resource[:content_type] = 'music'
+    file_type = resource_params[:video].original_filename.to_s[-3, 3]
+    if file_type === 'm4a'
+      temp_resource[:content_type] = 'music'
+    elsif file_type === 'mp4'
+      temp_resource[:content_type] = 'video'
+    end
 
     puts temp_resource
 
@@ -112,7 +118,7 @@ class MusicController < ApplicationController
 
 
   def destroy
-    if current_user[:group] == 'sradmin' || current_user[:group] == 'superadmin'
+    if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
       begin
         @resource = Resource.find(params[:id])
 
@@ -154,7 +160,7 @@ class MusicController < ApplicationController
   end
 
   def destroy_multiple
-    if current_user[:group] == 'sradmin' || current_user[:group] == 'superadmin'
+    if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
       begin
         @resources = params[:resource_ids].to_a
 
@@ -193,6 +199,7 @@ class MusicController < ApplicationController
       resource[:semester] = row[:Semester]
       resource[:course_id] = row[:AresCourseID]
       resource[:course_name] = row[:CourseName]
+      resource[:content_group] = 'mradmin'
       resource[:media_id] = ""
       resource[:video] = ""
     end

@@ -23,7 +23,7 @@ $(document).on 'turbolinks:load', ->
     dataType: 'json'
     paramName: 'resource[video]'
     autoUpload: false
-    acceptFileTypes: /(\.|\/)(mp4|mp3)$/i
+    acceptFileTypes: /(\.|\/)(mp4|m4a)$/i
     maxChunkSize: 800000000
     disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent)
     previewMaxWidth: 100

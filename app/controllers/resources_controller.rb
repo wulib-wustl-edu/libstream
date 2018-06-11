@@ -49,6 +49,13 @@ class ResourcesController < ApplicationController
 
     temp_resource[:size] = File.size(resource_params[:video].tempfile)
 
+    file_type = resource_params[:video].original_filename.to_s[-3, 3]
+    if file_type === 'm4a'
+      temp_resource[:content_type] = 'music'
+    elsif file_type === 'mp4'
+      temp_resource[:content_type] = 'video'
+    end
+
     @temp_upload = Resource.new(temp_resource)
 
     @upload = Resource.where(:item_id => @temp_upload.item_id).first

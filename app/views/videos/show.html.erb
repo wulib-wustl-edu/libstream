@@ -7,23 +7,45 @@
       <p>Instructor: <%= @resource.instructor %></p>
       <p>
       <div id="player"></div>
-      <script>
-          jwplayer("player").setup({
-              playlist: [{
-                  sources: [{
-                      file: "rtmp://<%= Figaro.env.wowza_server =%>/reserves/mp4:<%= @resource.item_id %>.mp4"
-                  }, {
-                      file: "http://<%= Figaro.env.wowza_server =%>/reserves/mp4:<%= @resource.item_id %>.mp4/playlist.m3u8"
-                  }]
-              }],
-              mediaid: "<%= @resource.media_id %>"
-              ,
-              rtmp: {
-                  bufferlength: 3
-              },
-              fallback: true
-          });
-      </script>
+      <% if @resource.content_type === 'video' %>
+        <script>
+            jwplayer("player").setup({
+                playlist: [{
+                    sources: [{
+                        file: "rtmp://<%= Figaro.env.wowza_server =%>/reserves/mp4:<%= @resource.item_id %>.mp4"
+                    }, {
+                        file: "http://<%= Figaro.env.wowza_server =%>/reserves/mp4:<%= @resource.item_id %>.mp4/playlist.m3u8"
+                    }]
+                }],
+                mediaid: "<%= @resource.media_id %>"
+                ,
+                rtmp: {
+                    bufferlength: 3
+                },
+                fallback: true
+            });
+        </script>
+      <% else %>
+        <script>
+            jwplayer("player").setup({
+                playlist: [{
+                    sources: [{
+                        file: "rtmp://<%= Figaro.env.wowza_server =%>/reserves/<%= @resource.item_id %>.m4a"
+                    }, {
+                        file: "http://<%= Figaro.env.wowza_server =%>/reserves/<%= @resource.item_id %>.m4a/playlist.m3u8"
+                    }]
+                }],
+                mediaid: "5HMT93Iy"
+                ,
+                rtmp: {
+                    bufferlength: 3
+                },
+                height: 40,
+                width: 640,
+                fallback: true
+            });
+        </script>
+      <% end %>
       </p>
     </div>
   </div>
