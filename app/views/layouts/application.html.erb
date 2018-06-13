@@ -18,12 +18,13 @@
 <body>
 <%= render 'layouts/header' %>
 
-<!-- Begin page content -->
-<%= yield %>
 <% if !flash.empty? %>
   <%= render 'layouts/messages' %>
 <% else %>
 <% end %>
+<!-- Begin page content -->
+<%= yield %>
+
 
 <%= render 'layouts/footer' %>
 
