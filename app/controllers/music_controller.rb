@@ -88,7 +88,8 @@ class MusicController < ApplicationController
     @upload[:video] = name
   rescue ArgumentError => error
     logger.warn "#{error}"
-    render json: {:error => error.to_s, flash[:error] => "Upload Failed. Please Contact Sys Admin."}, status: :unprocessable_entity
+    flash[:error] = "Upload Failed. Please Contact Sys Admin."
+    render json: {:error => error.to_s}, status: :unprocessable_entity
   else
     respond_to do |format|
       if @upload.save
