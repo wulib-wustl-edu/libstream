@@ -8,11 +8,11 @@ class ResourcesController < ApplicationController
 
   def index
     if current_user[:group] == 'superadmin'
-      @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 100, :page => params[:page])
       if params[:search]
-        @resources = Resource.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+        @resources = Resource.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 100, :page => params[:page])
       else
-        @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+        @resources = Resource.order(sort_column + " " + sort_direction).paginate(:per_page => 100, :page => params[:page])
       end
     else
       render 'resources/access_denied'

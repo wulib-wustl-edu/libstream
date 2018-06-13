@@ -8,11 +8,11 @@ class MusicController < ApplicationController
 
   def index
     if current_user[:group] == 'mradmin' || current_user[:group] == 'superadmin'
-      @resources = Resource.where("content_group = 'mradmin'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+      @resources = Resource.where("content_group = 'mradmin'").order(sort_column + " " + sort_direction).paginate(:per_page => 100, :page => params[:page])
       if params[:search]
-        @resources = Resource.where("content_group = 'mradmin'").search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+        @resources = Resource.where("content_group = 'mradmin'").search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 100, :page => params[:page])
       else
-        @resources = Resource.where("content_group = 'mradmin'").order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+        @resources = Resource.where("content_group = 'mradmin'").order(sort_column + " " + sort_direction).paginate(:per_page => 100, :page => params[:page])
       end
     else
       render 'resources/access_denied'
@@ -88,8 +88,7 @@ class MusicController < ApplicationController
     @upload[:video] = name
   rescue ArgumentError => error
     logger.warn "#{error}"
-    flash[:error] = "Upload Failed. Please Contact Sys Admin."
-    render json: {:error => error.to_s}, status: :unprocessable_entity
+    render json: {:error => error.to_s, flash[:error] => "Upload Failed. Please Contact Sys Admin."}, status: :unprocessable_entity
   else
     respond_to do |format|
       if @upload.save
