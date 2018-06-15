@@ -13,9 +13,8 @@ body {
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
-body > .container {
-    padding: 60px 10px 50% 10px;
-}
+/*body > .container {*/
+/*}*/
 
 .footer {
     width: 100%;
@@ -140,22 +139,26 @@ body > .container {
     font-family: 'Libre Baskerville', serif;
 }
 
-/*.navbar-nav > li > a:hover {*/
-    /*background-color: #fff;*/
-    /*margin-top: -6px;*/
-    /*border-top: 6px solid #a51417;*/
-    /*height: 50px;*/
-/*}*/
+.container.devise-login {
+    padding: 25px 117px;
+}
+
+#new_user > .actions > .btn.btn-warning {
+    margin-top: 1em;
+}
+
 
 .page-header {
-    font-family: 'Libre Baskerville', serif;
-    font-weight: bolder;
-    color: #363636;
+    background: #ffffff url('header_shield.svg') no-repeat left center;
+    border-bottom: 1px solid #fff;
     padding: 25px;
-    position: static;
+    margin-left: 33px;
 }
 
 .page-header > h1 {
+    font-family: 'Libre Baskerville', serif;
+    color: #363636;
+    font-weight: 400;
     padding: 0 0 15px 45px;
 }
 
