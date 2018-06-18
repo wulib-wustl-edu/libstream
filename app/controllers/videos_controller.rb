@@ -86,8 +86,10 @@ class VideosController < ApplicationController
     @upload[:video] = name
   rescue ArgumentError => error
     logger.warn "#{error}"
-    flash[:error] = "Upload Failed. Please Contact Sys Admin."
     render json: {:error => error.to_s}, status: :unprocessable_entity
+    flash[:error] = 'Delete Failed. Please contact Sys Admin'
+    VideoMailer.video_upload_alert(error).deliver_now
+    return
   else
     respond_to do |format|
       if @upload.save
@@ -129,7 +131,8 @@ class VideosController < ApplicationController
       rescue ArgumentError => error
         logger.warn "#{error}"
         flash[:error] = 'Delete Failed. Please contact Sys Admin'
-        redirect_to videos_path
+        VideoMailer.video_upload_alert(error).deliver_now
+        redirect_to music_index_path
       end
     else
       render 'resources/access_denied'
@@ -151,6 +154,7 @@ class VideosController < ApplicationController
       rescue ArgumentError => error
         logger.warn "#{error}"
         flash[:error] = 'Delete Failed. Please contact Sys Admin'
+        VideoMailer.video_upload_alert(error).deliver_now
       end
     else
       render 'new'
@@ -176,6 +180,7 @@ class VideosController < ApplicationController
       rescue ArgumentError => error
         logger.warn "#{error}"
         flash[:error] = 'Delete Failed. Please contact Sys Admin'
+        VideoMailer.video_upload_alert(error).deliver_now
         redirect_to videos_path
       end
     else
