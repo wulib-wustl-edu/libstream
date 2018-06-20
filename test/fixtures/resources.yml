@@ -1,23 +1,23 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  item_id: MyString
-  title: MyString
-  subtitles: MyString
-  course_id: MyString
-  course_name: MyString
-  semester: MyString
-  instructor: MyString
-  url: MyString
-  type: 
+  item_id: 153174
+  title: "Russian Ark"
+  subtitles: ""
+  course_id: "7880"
+  course_name: "Global Art Cinema"
+  semester: "Spring 2017"
+  instructor: "Burnett, Colin"
+  content_type: "video"
+  media_id: ""
 
 two:
-  item_id: MyString
-  title: MyString
-  subtitles: MyString
-  course_id: MyString
-  course_name: MyString
-  semester: MyString
-  instructor: MyString
-  url: MyString
-  type: 
+  item_id: 151302
+  title: "Das Wunder Von Bern"
+  subtitles: "English Subtitles"
+  course_id: "7831"
+  course_name: "Literary Seminar: Contentious Cinema - German Film Culture After Unification"
+  semester: "Spring 2017"
+  instructor: "Kapczynski, Jennifer M."
+  content_type: "music"
+  media_id: ""
