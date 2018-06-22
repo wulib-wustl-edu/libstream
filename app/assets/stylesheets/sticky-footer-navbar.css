@@ -198,6 +198,10 @@ code {
 }
 
 
+.alert.alert-timedout.alert-dismissible {
+    display:none;
+}
+
 @media screen and (max-width: 768px) {
 
 .page-header {
