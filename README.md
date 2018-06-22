@@ -1,101 +1,74 @@
 # LibStream (Streaming Reserves application)
 
-* Ruby version: ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-darwin17]
+> This application allows library staff to upload music and video files to the University Library
+Wowza Server as requested by Faculty for Course Reserves materials (on a semester basis). The uploaded files
+can be streamed to students in the faculty's classes via links provided in the Ares Course Reserves systems.
 
-* Rails version: 5.1.6
+## Prerequisites:
 
+- [Wowza Streaming Reserves Engine application & server](https://www.wowza.com/docs/wowza-streaming-engine-getting-started)
+- [JW Player Account and API keys](jwplayer.com)
+- AD/LDAP connections with Devise Gem (variables set in devise's ldap.yml file)
+- Note: for email alert functionality, you will need an SMTP email account
+- FreeTDS is required for the Tiny_TDS gem to install.
+    - [TinyTDS](https://www.rubydoc.info/gems/tiny_tds/0.7.0)
+    - [FreeTDS](http://www.freetds.org/userguide/install.htm)
+    - FreeTDS via Homebrew:
 
-Functionality needed:
+            $ brew install freetds
 
-Session/duration: logged-in user session should have a reasonable duration (not immediate cut-off)
+- Ruby version: ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-darwin17]
+- Bundler needs to be installed
 
-Upload: 
-    
-- Upload video files to Wowza Server
-- Upload files in batch or individually
-- Gather metadata from Ares based on uploaded video file
-- Update ARES record with URL
-- URL of single streaming video page using JW Player created
-- Allot space/scalable space
+## Installation:
 
-List of files:
-    
-- List all videos (or music) uploaded to Wowza
-    - Title
-    - ItemID
-    - CourseID
-    - SubTitles available
-    - Course Instructor
-    - Semester
-    - URL
-    - Delete option (remove from application list NOT from ARES)
+Once prerequisites are in place:
 
-- Batch Delete of Files
-- Auto-Removal of Files (after end of semester)
-- Sort/Filter List
-- Search list of files
+1. Clone git repo to your localhost
 
-Login: 
+            $ git clone <git project url>
 
-- Login connected to active directory
-- View (what user is able to see) based on login
-- Can't view any content in admin interface without being logged in
-    
+2. Move to project directory & run bundle install
 
-Streaming Page: 
+            $ cd project_name
+            $ bundle install
 
-- Show Copyright information
-- Requires JWPlayerJS be included in codebase
-- Stream video uploaded to Wowza Server
-- Display metadata about file along with streaming file
+3. Supply application.yml file and ldap.yml file required for devise ldap configuration, Wowza, and JW Player configuration
+
+4. Run DB:Migrate
+
+            $ rails db:migrate
+
+5. Test running development server
+
+            $ rails s
+
+6. Navigate to localhost:3000 in your browser
 
 
-Stats/Usage:
 
-- Stats/Usage Dashboard
+## Tests
 
+> Tests are written using Rails default Minitests
 
-Architecture: 
+For example, to run model tests:
 
-Model(s):
+            $ rails test test/models/resource_test.rb
 
-    Resource:
-    
-    - ItemID (string)
-    - Title (string)
-    - Subtitles (string)
-    - CourseID (string)
-    - CourseName (string)
-    - Semester (string)
-    - Instructor (string)
-    - URL (string)
-    - Type (string) # is it music, video, etc?
+## Deployment
 
+> Currently, we use Passenger/Nginx/Rbenv deployment with Ansible Playbook
 
-    User:
-    - ID
-    - Last Name
-    - First Name
-    - Email
-    - Username
-    - User Login Stats (last sign in, number of sign ins)
-    
+## Built with:
+
+- Rails 5.1.6
+- [Jquery File Upload Plugin](https://github.com/blueimp/jQuery-File-Upload)
+- See Gemfile for other dependencies
+- Tiny_TDS is used to connect to Ares Course Reserve Database
+- See Prerequisites
 
 
-Views: 
+## License
 
-    - Upload View 
-    - List View
-    - Streaming File View
-    - Home/Index View
+LibStream is available under MIT License. See License.md.
 
-
-Controller (other than Application Controller):
-
-    Resource Controller:
-    
-    - Upload
-    - List
-    - Stream
-    - Home/Index
-    
