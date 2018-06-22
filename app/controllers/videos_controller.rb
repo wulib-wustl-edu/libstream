@@ -32,7 +32,7 @@ class VideosController < ApplicationController
 
   def edit
     if current_user[:group] == 'superadmin'
-     @resource = Resource.find(params[:id])
+      @resource = Resource.find(params[:id])
     else
       render 'resources/access_denied'
     end
@@ -50,7 +50,6 @@ class VideosController < ApplicationController
     elsif file_type === 'mp4'
       temp_resource[:content_type] = 'video'
     end
-
 
     @temp_upload = Resource.new(temp_resource)
 
@@ -87,8 +86,17 @@ class VideosController < ApplicationController
   rescue ArgumentError => error
     logger.warn "#{error}"
     render json: {:error => error.to_s}, status: :unprocessable_entity
-    flash[:error] = 'Delete Failed. Please contact Sys Admin'
     VideoMailer.video_upload_alert(error).deliver_now
+    return
+  rescue NoMethodError => error
+    logger.warn "#{error}"
+    render json: {:error => error.to_s}, status: :unprocessable_entity
+    VideoMailer.video_upload_alert(error).deliver_now
+    return
+  rescue TinyTds::Error => error
+    logger.warn "#{error}"
+    render json: {:error => error.to_s}, status: :unprocessable_entity
+    VideoMailer.video_tinytds_alert(error).deliver_now
     return
   else
     respond_to do |format|
@@ -132,7 +140,7 @@ class VideosController < ApplicationController
         logger.warn "#{error}"
         flash[:error] = 'Delete Failed. Please contact Sys Admin'
         VideoMailer.video_upload_alert(error).deliver_now
-        redirect_to music_index_path
+        redirect_to videos_path
       end
     else
       render 'resources/access_denied'

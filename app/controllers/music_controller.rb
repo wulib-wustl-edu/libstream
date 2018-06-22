@@ -40,7 +40,6 @@ class MusicController < ApplicationController
 
   def create
     query_id = resource_params[:video].original_filename.to_s[0..-5]
-
     # create temp resource and make call to ares for values
     temp_resource = ares_call(query_id)
 
@@ -51,8 +50,6 @@ class MusicController < ApplicationController
     elsif file_type === 'mp4'
       temp_resource[:content_type] = 'video'
     end
-
-    puts temp_resource
 
     @temp_upload = Resource.new(temp_resource)
 
@@ -89,8 +86,17 @@ class MusicController < ApplicationController
   rescue ArgumentError => error
     logger.warn "#{error}"
     render json: {:error => error.to_s}, status: :unprocessable_entity
-    flash[:error] = 'Delete Failed. Please contact Sys Admin'
     MusicMailer.music_upload_alert(error).deliver_now
+    return
+  rescue NoMethodError => error
+    logger.warn "#{error}"
+    render json: {:error => error.to_s}, status: :unprocessable_entity
+    MusicMailer.music_upload_alert(error).deliver_now
+    return
+  rescue TinyTds::Error => error
+    logger.warn "#{error}"
+    render json: {:error => error.to_s}, status: :unprocessable_entity
+    MusicMailer.music_tinytds_alert(error).deliver_now
     return
   else
     respond_to do |format|
@@ -104,7 +110,6 @@ class MusicController < ApplicationController
       else
         format.html { render action: "new" }
         format.json { render json: [@upload.to_jq_upload].errors, status: :unprocessable_entity }
-        puts 'got to errors!!!!'
       end
     end
   end
@@ -134,7 +139,7 @@ class MusicController < ApplicationController
       rescue ArgumentError => error
         logger.warn "#{error}"
         flash[:error] = 'Delete Failed. Please contact Sys Admin'
-        MusicMailer.music_upload_alert(error).deliver_now
+        MusicMailer.music_destroy_alert(error).deliver_now
         redirect_to music_index_path
       end
     else
@@ -157,7 +162,7 @@ class MusicController < ApplicationController
       rescue ArgumentError => error
         logger.warn "#{error}"
         flash[:error] = 'Delete Failed. Please contact Sys Admin'
-        MusicMailer.music_upload_alert(error).deliver_now
+        MusicMailer.music_destroy_alert(error).deliver_now
       end
     else
       render 'new'
@@ -183,7 +188,7 @@ class MusicController < ApplicationController
       rescue ArgumentError => error
         logger.warn "#{error}"
         flash[:error] = 'Delete Failed. Please contact Sys Admin'
-        MusicMailer.music_upload_alert(error).deliver_now
+        MusicMailer.music_destroy_alert(error).deliver_now
         redirect_to music_index_path
       end
     else
@@ -213,18 +218,14 @@ class MusicController < ApplicationController
   end
 
   def jw_call(title, item_id, content_type)
-    begin
-      # Initiate call to JW Player
-      jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
-      signed_url = jw_call.signed_url('videos/create', 'title': title, 'sourcetype': 'url', 'sourceformat': 'mp4', 'sourceurl': 'http://' + Figaro.env.wowza_server + '/reserves/' + item_id.to_s + '.' + content_type.to_s)
-      response = Typhoeus.post(signed_url)
-      json = JSON.parse(response.body)
-      media_id = json.dig('video', 'key')
+    # Initiate call to JW Player
+    jw_call = JWPlayer::API::Client.new(key: Figaro.env.jw_api_key, secret: Figaro.env.jw_api_secret)
+    signed_url = jw_call.signed_url('videos/create', 'title': title, 'sourcetype': 'url', 'sourceformat': 'mp4', 'sourceurl': 'http://' + Figaro.env.wowza_server + '/reserves/' + item_id.to_s + '.' + content_type.to_s)
+    response = Typhoeus.post(signed_url)
+    json = JSON.parse(response.body)
+    media_id = json.dig('video', 'key')
 
-      return media_id
-    rescue
-      puts media_id
-    end
+    return media_id
   end
 
   private
